@@ -1,8 +1,9 @@
 package com.app.rang.project.controller.board;
 
+import com.app.rang.project.model.BoardListModel;
 import com.app.rang.project.model.BoardWriteRequest;
+import com.app.rang.project.service.BoardListService;
 import com.app.rang.project.service.BoardWriteService;
-import com.app.rang.project.util.Util;
 import com.app.rang.project.util.CategoryUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +11,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.*;
 import java.util.List;
 
@@ -30,6 +26,9 @@ public class BoardRestController {
     @Autowired
     BoardWriteService boardWriteService;
 
+    @Autowired
+    BoardListService boardListService;
+
     @GetMapping
     public ModelAndView writeItemViewPage(
             HttpServletRequest request
@@ -39,6 +38,31 @@ public class BoardRestController {
         mav.addObject("itemCategory", CategoryUtil.categoryNames);
         mav.setViewName("view/board/write");
         return mav;
+    }
+
+    @GetMapping("/list")
+    public ModelAndView getBoardList(){
+        ModelAndView mav = new ModelAndView();
+        List<BoardListModel> list = boardListService.selectBoardListByPage();
+        log.info("list -----> " + list);
+        mav.addObject("itemList", list);
+        mav.addObject("last", list.size() > 0 ? list.get(list.size()-1).getBoardidx() : 0);
+
+        mav.setViewName("view/board/list");
+
+        return mav;
+    }
+
+    @GetMapping("/list/{idx}")
+    public ResponseEntity<List<BoardListModel>> getBoardList(
+            @PathVariable("idx") int boardIdx
+    ) {
+        List<BoardListModel> itemList = boardListService.selectBoardListByListIdx(boardIdx);
+
+        log.info("list -----> " + itemList);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        return new ResponseEntity<>(itemList, httpHeaders, HttpStatus.OK);
     }
 
     @PostMapping

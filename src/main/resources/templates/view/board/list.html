@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>상품 목록 페이지</title>
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/base.css"/>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+      .aTag{
+        text-decoration: none;
+        color: #1a1e21;
+      }
+      .row-item {
+        border: 1px solid #cccccc;
+        border-radius: 10px;
+        background: #f5f5f5;
+        padding: 20px;
+      }
+      .row-img {
+        border: 1px solid #cccccc;
+        border-radius: 10px;
+      }
+      .addItem {
+        position: fixed;
+        right: 15px;
+        bottom: 15px;
+      }
+    </style>
+  </head>
+  <body>
+  <div class="container" id="itemListDiv">
+    <h2 class="mt-4">너도나도 장터</h2>
+    <p>중고 물품을 사고 팔아보세요</p>
+    <div class="container-lg">　 </div>
+    <div class="container-lg">　 </div>
+    <div class="container-lg">
+      <a th:each="item: ${itemList}" th:href="@{/board/{boardidx}(boardidx=${item.boardidx})}" class="aTag">
+        <div name="item" class="row mb-3 row-item">
+          <div class="col-md-4 ">
+            <th:block th:if="${item.thumbnail != null}">
+              <img th:src="@{/upload/thumbnail/{name}(name=${item.thumbnail})}" />
+            </th:block>
+            <img th:if="${item.thumbnail == null || item.thumbnail == ''}" class="row-img" src="/upload/default.jpg" width="120px" height="120px" />
+          </div>
+          <div class="col-md-8 text-black">
+            <div class="pb-3">
+              <h3>[[${item.title}]]</h3>
+            </div>
+            <div class="row">
+              <div class="col-md-6 ">[[${item.onsale}]]</div>
+              <div class="col-md-6 text-black-50 text-md-end">[[${item.writedate}]]</div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 "></div>
+              <div class="col-md-6 text-danger text-lg-end"><strong>[[${item.price}]] 원</strong></div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="container">
+    <input type="hidden" id="lastItemIdx" th:value="${last}"/>
+    <input type="button" id="nextItems" class="btn btn-outline-secondary" style="min-width: 100%" value="▼"/>
+  </div>
+  <div class="addItem col-md-1">
+    <a href="/board" class="btn btn-secondary">　+　</a>
+  </div>
+  </body>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelector('#nextItems').addEventListener('click', (e) => {
+        let itemIdx = document.querySelector('#lastItemIdx').value;
+        axios('/board/list/'+itemIdx)
+                .then(function(response){
+                  let obj = response.data;
+                  if(obj.length == 0) {
+                    // 안보이게 처리
+                    document.querySelector('#nextItems').style.visibility = 'hidden';
+                  } else {
+                    // 여기서 append 시켜줘야 함
+                    let appendHtml = '';
+                    let div = document.createElement('div');
+                    div.setAttribute('class', 'row');
+                    obj.forEach((e) => {
+                      appendHtml += makeItemRow(e.boardidx, e.thumbnail, e.title, e.price, e.writedate);
+                    });
+                    div.innerHTML = appendHtml;
+                    document.querySelector('#itemListDiv').appendChild(div);
+                    document.querySelector('#lastItemIdx').value = obj[obj.length-1].boardidx;
+                  }
+                });
+      });
+    });
+
+    function makeItemRow(idx, thumbnail, title, price, writeDate, onSale=1) {
+      return '<a href="/board/'+idx+'" class="aTag">'
+              +'<div name="item" value="'+idx+'" class="row mb-3 row-item">'
+              +'	<div class="col-md-4 ">'
+              +'		<img class="row-img" src="/upload/thumbnail/'+thumbnail+'" />'
+              +'	</div>'
+              +'	<div class="col-md-8 ">'
+              +'		<div class="pb-3">'
+              +'			<strong>'+title+'</strong>'
+              +'		</div>'
+              +'		<div class="row">'
+              +'			<div class="col-md-6 ">'+onSale+'</div>'
+              +'			<div class="col-md-6 ">'+writeDate+'</div>'
+              +'		</div>'
+              +'		<div class="row">'
+              +'			<div class="col-md-6 "></div>'
+              +'			<div class="col-md-6 "><strong>'+price+' 원</strong></div>'
+              +'		</div>'
+              +'	</div>'
+              +'</div>'
+              +'</a>';
+    }
+  </script>
+</html>

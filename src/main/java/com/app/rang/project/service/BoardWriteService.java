@@ -108,12 +108,12 @@ public class BoardWriteService {
         log.info("oPath ---> " + oFile.getPath());
 
         int index = fileName.lastIndexOf(".");
-        String ext = fileName.substring(index + 1); // 파일 확장자
+        String thumbnailName = fileName.substring(0, index) + ".jpg";
 
         String thumbnailPath = originalFilePath + "\\thumbnail";
         log.info("tPath ---> " + thumbnailPath);
 
-        File thumbnailFile = new File(thumbnailPath, fileName);
+        File thumbnailFile = new File(thumbnailPath, thumbnailName);
 
         try {
             if (!thumbnailFile.exists()) {
@@ -134,15 +134,15 @@ public class BoardWriteService {
             graphic.drawImage(image, 0, 0, tWidth, tHeight, null);
             graphic.dispose(); // 리소스를 모두 해제
 
-            ImageIO.write(thumbnailImg, ext, thumbnailFile);
-            list.add(fileName);
+            ImageIO.write(thumbnailImg, "jpg", thumbnailFile);
+            list.add(thumbnailName);
             log.info(list);
         } catch (Exception e) {
             e.printStackTrace();
             log.error(e.getMessage());
             log.error(e.getStackTrace());
             // -> 에러 발생시 저장된 파일 모두 제거
-            File delFile = new File(thumbnailPath, fileName);
+            File delFile = new File(thumbnailPath, thumbnailName);
             if(delFile.exists()){
                 // 파일 삭제
                 delFile.delete();
