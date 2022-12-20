@@ -1,6 +1,9 @@
 package com.app.rang.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -13,6 +16,8 @@ import java.time.LocalDate;
 @ToString
 @Builder
 @Entity
+@DynamicInsert
+@DynamicUpdate
 @Table(name="board")
 public class Board {
 
@@ -21,23 +26,23 @@ public class Board {
     @Column
     private Long boardidx;
 
-    @Column
+    @Column(columnDefinition = "varchar(256) not null")
     private String title;
-    @Column
+    @Column(columnDefinition = "text not null")
     private String content;
-    @Column
+    @Column(columnDefinition = "integer not null")
     private Integer category;
     @Column
     private String thumbnail;
     @Column
     private String img;
-    @Column
+    @Column(columnDefinition = "integer not null default 1")
     private Integer onsale;
-    @Column
+    @Column(columnDefinition = "integer not null")
     private Integer price;
-    @Column
-    private Integer useridx;
-    @Column
+    @Column(columnDefinition = "bigint not null default 0")
+    private Long useridx;
+    @Column(columnDefinition = "timestamp not null default current_timestamp()")
     private LocalDate writedate;
 
 }
