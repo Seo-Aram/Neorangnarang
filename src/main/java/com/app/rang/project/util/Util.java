@@ -1,4 +1,4 @@
-package com.app.rang.util;
+package com.app.rang.project.util;
 
 import javax.servlet.http.Cookie;
 import java.time.Instant;

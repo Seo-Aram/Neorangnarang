@@ -1,7 +1,7 @@
-package com.app.rang.controller.board;
+package com.app.rang.project.controller.board;
 
-import com.app.rang.util.CategoryUtil;
-import com.app.rang.util.Util;
+import com.app.rang.project.util.Util;
+import com.app.rang.project.util.CategoryUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.List;
 

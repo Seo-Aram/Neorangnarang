@@ -1,4 +1,4 @@
-package com.app.rang.entity;
+package com.app.rang.project.entity;
 
 import lombok.*;
 

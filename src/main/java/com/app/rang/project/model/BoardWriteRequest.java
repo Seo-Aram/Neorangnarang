@@ -1,9 +1,7 @@
-package com.app.rang.model;
+package com.app.rang.project.model;
 
-import com.app.rang.entity.Board;
+import com.app.rang.project.entity.Board;
 import lombok.*;
-
-import javax.persistence.Column;
 
 @AllArgsConstructor
 @NoArgsConstructor

@@ -1,11 +1,10 @@
-package com.app.rang.controller.board;
+package com.app.rang.project.controller.board;
 
-import com.app.rang.model.BoardWriteRequest;
-import com.app.rang.service.BoardWriteService;
+import com.app.rang.project.model.BoardWriteRequest;
+import com.app.rang.project.service.BoardWriteService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 

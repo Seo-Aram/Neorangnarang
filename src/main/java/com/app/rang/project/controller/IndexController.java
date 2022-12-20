@@ -1,4 +1,4 @@
-package com.app.rang.controller;
+package com.app.rang.project.controller;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
