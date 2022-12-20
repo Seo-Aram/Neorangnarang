@@ -1,0 +1,13 @@
+main{
+    max-width: 800px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.aTag{
+    text-decoration: none;
+    color: #1a1e21;
+}

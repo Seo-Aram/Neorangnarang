@@ -1,0 +1,17 @@
+.dropFileZone {
+    background-color: #EEE;
+    border: #999 1px dashed;
+    width: 100%;
+    height: 100px;
+    padding: 8px;
+}
+#dragUploadFile {
+    width:50%;
+    margin:0 auto;
+}
+#dragUploadFile p {
+    text-align: center;
+}
+#dragUploadFile #selectFile {
+    display: none;
+}

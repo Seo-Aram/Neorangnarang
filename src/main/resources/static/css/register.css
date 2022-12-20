@@ -1,0 +1,57 @@
+body {
+
+    min-height: 100vh;
+
+    background: -webkit-gradient(linear, left bottom, right top, from(#92b5db), to(#1d466c));
+    background: -webkit-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+    background: -moz-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+    background: -o-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+    background: linear-gradient(to top right, #92b5db 0%, #1d466c 100%);
+}
+
+.input-form {
+    max-width: 680px;
+
+    margin-top: 80px;
+    padding: 32px;
+
+    background: #fff;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
+
+}
+
+/*섹션 크기*/
+.bg-light{
+    height: 1053px;
+    padding-top:55px;
+    padding-bottom:75px;
+}
+.flex-fill.mx-xl-5.mb-2{
+    margin: 0 auto;
+    width : 700px;
+    padding-right: 7rem;
+    padding-left: 7rem;
+}
+ /*입력창 */
+.container.py-4{
+    margin: 0 auto;
+    width : 503px;
+}
+ /*가입하기*/
+.d-grid.gap-2{
+    padding-top: 30px;
+}
+
+/*생년월일 */
+.bir_yy,.bir_mm,.bir_dd{
+    width:220px;
+    display:table-cell;
+}
+.bir_mm+.bir_dd, .bir_yy+.bir_mm{
+    padding-left:10px;
+}
