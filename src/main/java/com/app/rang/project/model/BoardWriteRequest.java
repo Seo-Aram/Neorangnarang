@@ -28,6 +28,8 @@ public class BoardWriteRequest {
                 .title(title)
                 .content(content)
                 .category(category)
+                .img(img)
+                .thumbnail(thumbnail)
                 .price(price)
                 .build();
     }

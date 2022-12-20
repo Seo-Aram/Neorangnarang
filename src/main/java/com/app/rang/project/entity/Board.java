@@ -34,7 +34,7 @@ public class Board {
     private Integer category;
     @Column
     private String thumbnail;
-    @Column
+    @Column(columnDefinition = "varchar(1000) not null")
     private String img;
     @Column(columnDefinition = "integer not null default 1")
     private Integer onsale;

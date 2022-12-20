@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/css/base.css"/>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/drop.css"/>
     <style>
       .mg-form {
@@ -70,7 +71,7 @@
               </div>
               <div class="col-sm-3">
                 <select name="category" class="form-control form-select" id="category">
-                  <option th:each="category: ${itemCategory}" value="${category.key}">[[${category.value}]]</option>
+                  <option th:each="category, status: ${itemCategory}" th:value="${category.key}">[[${category.value}]]</option>
                 </select>
               </div>
             </div>
@@ -134,11 +135,11 @@
           content: content.value,
           price: price.value,
           category: category.options[category.selectedIndex].value,
-          imgURL: fileList.toString(),
+          img: fileList.toString(),
           thumbnail: document.querySelector('#thumbnail').value
         };
 
-        axios.post('/app/v1/item', itemEntity)
+        axios.post('/board', itemEntity)
                 .then(function (response) {
                   console.log(response);
                   location.href= response.data;

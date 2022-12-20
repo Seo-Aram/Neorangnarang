@@ -1,13 +1,11 @@
 package com.app.rang;
 
-import com.app.rang.entity.Board;
-import com.app.rang.model.BoardWriteRequest;
-import com.app.rang.repository.BoardRepository;
+import com.app.rang.project.entity.Board;
+import com.app.rang.project.model.BoardWriteRequest;
+import com.app.rang.project.repository.BoardRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.time.LocalDate;
 
 @SpringBootTest
 public class BoardTest {
