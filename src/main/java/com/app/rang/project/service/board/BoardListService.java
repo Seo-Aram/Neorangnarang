@@ -1,4 +1,4 @@
-package com.app.rang.project.service;
+package com.app.rang.project.service.board;
 
 import com.app.rang.project.mapper.BoardMapper;
 import com.app.rang.project.model.BoardListModel;

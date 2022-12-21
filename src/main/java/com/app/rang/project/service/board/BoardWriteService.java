@@ -1,4 +1,4 @@
-package com.app.rang.project.service;
+package com.app.rang.project.service.board;
 
 import com.app.rang.project.model.BoardWriteRequest;
 import com.app.rang.project.repository.BoardRepository;

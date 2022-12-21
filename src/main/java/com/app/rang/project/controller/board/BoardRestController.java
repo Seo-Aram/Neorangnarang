@@ -1,9 +1,12 @@
 package com.app.rang.project.controller.board;
 
+import com.app.rang.project.entity.Board;
 import com.app.rang.project.model.BoardListModel;
+import com.app.rang.project.model.BoardViewModel;
 import com.app.rang.project.model.BoardWriteRequest;
-import com.app.rang.project.service.BoardListService;
-import com.app.rang.project.service.BoardWriteService;
+import com.app.rang.project.service.board.BoardListService;
+import com.app.rang.project.service.board.BoardViewService;
+import com.app.rang.project.service.board.BoardWriteService;
 import com.app.rang.project.util.CategoryUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +32,11 @@ public class BoardRestController {
     @Autowired
     BoardListService boardListService;
 
+    @Autowired
+    BoardViewService boardViewService;
+
     @GetMapping
-    public ModelAndView writeItemViewPage(
+    public ModelAndView getWritePage(
             HttpServletRequest request
     ) {
         ModelAndView mav = new ModelAndView();
@@ -55,7 +61,7 @@ public class BoardRestController {
 
     @GetMapping("/list/{idx}")
     public ResponseEntity<List<BoardListModel>> getBoardList(
-            @PathVariable("idx") int boardIdx
+            @PathVariable("idx") long boardIdx
     ) {
         List<BoardListModel> itemList = boardListService.selectBoardListByListIdx(boardIdx);
 
@@ -65,8 +71,25 @@ public class BoardRestController {
         return new ResponseEntity<>(itemList, httpHeaders, HttpStatus.OK);
     }
 
+    @GetMapping("/{idx}")
+    public ModelAndView getViewPage(
+            @PathVariable("idx") long boardIdx
+    ) {
+        BoardViewModel board = boardViewService.getBoard(boardIdx);
+
+        log.info("board -----> " + board);
+
+        ModelAndView mav = new ModelAndView();
+        mav.clear();
+        mav.addObject("board", board);
+        //mav.addObject("commentList", commentListService.selectBoardCommentLimit(boardIdx, 0));
+        mav.setViewName("view/board/view");
+
+        return mav;
+    }
+
     @PostMapping
-    public ResponseEntity<String> writeItem(
+    public ResponseEntity<String> postWritePage(
             HttpServletRequest request,
             @RequestBody BoardWriteRequest itemEntity
     ) {

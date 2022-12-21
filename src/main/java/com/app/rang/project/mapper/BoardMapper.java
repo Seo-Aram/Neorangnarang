@@ -8,8 +8,8 @@ import java.util.List;
 
 @Mapper
 public interface BoardMapper {
-    @Select("SELECT * FROM board ORDER BY boardidx DESC LIMIT 0, 1")
+    @Select("SELECT * FROM board ORDER BY boardidx DESC LIMIT 0, 20")
     List<BoardListModel> selectItemListByPage();
-    @Select("SELECT * FROM board WHERE boardidx < ${idx} ORDER BY boardidx DESC LIMIT 0, 1")
+    @Select("SELECT * FROM board WHERE boardidx < ${idx} ORDER BY boardidx DESC LIMIT 0, 20")
     List<BoardListModel> selectItemListByItemIdx(long idx);
 }
