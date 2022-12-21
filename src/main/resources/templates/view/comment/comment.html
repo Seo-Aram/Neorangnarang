@@ -19,12 +19,11 @@
 
 <body>
 
-  <main>
-
+  <main th:fragment="commentParam(p)">
 
     <div id="commentListDiv" class="container-sm">
       <div th:each="comment : ${commentList}">
-        <div class="col-sm-12" id="row-${comment.commentIdx}">
+        <div class="col-sm-12" id="row-${comment.commentidx}">
           <div class="comment-row row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
@@ -50,7 +49,7 @@
         <div class="row">
           <div class="col-md-2"></div>
           <div class="col-md-8">
-            <input type="hidden" id="lastCommentIdx" value="${commentList.size() != 0 ? commentList[commentList.size()-1].commentIdx : 0}"/>
+            <input type="hidden" id="lastCommentIdx" value="${commentList.size() != 0 ? commentList[commentList.size()-1].commentidx : 0}"/>
             <input type="button" id="nextComment" class="btn btn-outline-secondary" style="min-width: 100%" value="▼"/>
           </div>
           <div class="col-md-2"></div>
@@ -72,21 +71,20 @@
         <div class="col-sm-1">
           <input type="button" id="commentSubmit" class="btn btn-outline-secondary" style="min-width: 100%; min-height: 100%" value="작성">
         </div>
+        <input type="hidden" th:value="${p}" id="boardIdx"/>
       </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            crossorigin="anonymous">
+    </script>
+
+    <script src="/js/comment.js"></script>
 
 
   </main>
 
 </body>
-
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"
-        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-        crossorigin="anonymous">
-</script>
-
-
-<script src="/resources/js/textLenCheck.js"></script>
-<!--<script src="/resources/js/comment.js"></script>-->
 
 </html>

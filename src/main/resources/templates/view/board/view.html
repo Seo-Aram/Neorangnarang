@@ -77,7 +77,7 @@
     </div>
     <hr/>
 
-    <div th:replace="view/comment/comment"></div>
+    <div th:replace="~{/view/comment/comment :: commentParam(${board.boardidx})}"></div>
 
   </main>
   </body>
