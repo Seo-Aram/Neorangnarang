@@ -1,6 +1,7 @@
 package com.app.rang.project.entity;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @ToString
 @Builder
 @Entity
+@DynamicInsert
 @Table(name="user")
 public class User {
 
@@ -22,19 +24,19 @@ public class User {
     @Column
     private Long useridx;
 
-    @Column
+    @Column(columnDefinition = "varchar(256) unique not null")
     private String username;
-    @Column
+    @Column(columnDefinition = "varchar(256) not null")
     private String password;
 
-    @Column
+    @Column(columnDefinition = "varchar(20) not null")
     private String nickname;
-    @Column
+    @Column(columnDefinition = "varchar(100) not null")
     private String nation;
-    @Column
+    @Column(columnDefinition = "varchar(12) not null")
     private String phone;
 
-    @Column
+    @Column(columnDefinition = "varchar(100) not null")
     private String location;
     @Column
     private Integer byear;
@@ -43,9 +45,9 @@ public class User {
     @Column
     private Integer bday;
 
-    @Column
+    @Column(columnDefinition = "timestamp not null default current_timestamp()")
     private LocalDate joindate;
-    @Column
+    @Column(columnDefinition = "tinyint default 0")
     private Boolean deleted;
 
 

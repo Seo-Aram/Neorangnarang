@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Welcome to NeorangNarang!</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="/css/signin.css" rel="stylesheet">
+
+    </head>
+    <body class="text-center">
+
+    <main class="form-signin w-100 m-auto">
+        <form method="post">
+            <h1 class="h3 mb-3 fw-normal">NeorangNarang</h1>
+            <p class="text-small">너랑나랑 중고 거래를 즐겨보세요!</p>
+
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput" name="username" placeholder="ID 입력">
+                <label for="floatingInput">아이디</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+                <label for="floatingPassword">비밀번호</label>
+            </div>
+
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="remember-me"> 다음부터 자동로그인
+                </label>
+            </div>
+
+            <button class="w-100 btn btn-lg btn-outline-primary p-1" style="margin: 2px" type="submit">로그인</button>
+            <a href="/register" class="w-100 btn btn-lg btn-outline-secondary p-1" style="margin: 2px">회원 가입</a>
+
+
+            <p class="mt-5 mb-3 text-muted">&copy; 2022 NRNR</p>
+        </form>
+    </main>
+
+    </body>
+</html>
