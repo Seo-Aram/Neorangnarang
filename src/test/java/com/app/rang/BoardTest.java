@@ -1,8 +1,7 @@
 package com.app.rang;
 
 import com.app.rang.project.entity.Board;
-import com.app.rang.project.model.BoardListModel;
-import com.app.rang.project.model.BoardWriteRequest;
+import com.app.rang.project.model.board.BoardListModel;
 import com.app.rang.project.repository.BoardRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.app.rang.project.controller.board;
 
-import com.app.rang.project.model.BoardWriteRequest;
+import com.app.rang.project.model.board.BoardWriteRequest;
 import com.app.rang.project.service.board.BoardWriteService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;

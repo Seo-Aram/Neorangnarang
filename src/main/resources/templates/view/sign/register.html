@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Signup for NeorangNarang!</title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet"
+              href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+              crossorigin="anonymous">
+
+        <!-- Custom styles for this template -->
+        <link href="/css/register.css" rel="stylesheet">
+
+    </head>
+    <body >
+
+    <div class="container">
+        <div class="input-form-backgroud row">
+            <div class="input-form col-md-12 mx-auto">
+                <h4 class="mb-3">회원가입</h4>
+                <form method="post" class="validation-form" novalidate>
+                    <div class="form-group mb-2">
+                        <label for="userId" class="form-label mt-4">아이디</label>
+                        <input type="text" class="form-control" id="userId" name="username" aria-describedby="emailHelp" required>
+                        <div class="invalid-feedback"> 아이디를 입력해주세요. </div>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label class="form-label mt-4" for="userPw">비밀번호</label>
+                        <input type="password" class="form-control" id="userPw" name="password" required>
+                        <div class="invalid-feedback"> 비밀번호를 입력해주세요. </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label class="form-label mt-4" for="rePw">비밀번호 재확인</label>
+                        <input type="password" class="form-control" id="rePw" name="password-check" required>
+                        <div class="invalid-feedback" id="invalidPw">비밀번호가 일치하지 않습니다</div>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label for="nickname" class="form-label mt-4">닉네임</label>
+                        <input type="text" class="form-control" id="nickname" name="nickname" aria-describedby="emailHelp" required>
+                        <div class="invalid-feedback"> 닉네임을 입력해주세요. </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="location" class="form-label mt-4">거주 지역</label>
+                        <input type="text" class="form-control" id="location" name="location" placeholder="ex) 노원구, 서초구 " maxlength="5" required>
+                        <div class="invalid-feedback"> 거주 지역을 입력해주세요. </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="phone" class="form-label mt-4">연락처 </label>
+                        <input type="text" class="form-control" id="phone" name="phone" placeholder="-를 제외한 11자리">
+                    </div>
+
+                    <div class ="bir_wrap mb-2">
+                        <label class="form-label mt-4 mb-3">생년월일</label>
+                        <div class="bir_yy">
+                                <span class="ps_box">
+                                    <input type="text" class="form-control" id="byear" name="byear" placeholder="태어난 년도(4자리)" maxlength="4">
+                                </span>
+                        </div>
+                        <div class="bir_mm">
+                                <span class="ps_box focus">
+                                    <select class="form-select form-control" id="bmonth" name="bmonth" >
+                                        <option>태어난 달(월)</option>
+                                     </select>
+                                </span>
+                        </div>
+                        <div class="bir_dd">
+                                <span class="ps_box">
+                                    <input type ="text" class="form-control" id ="bday" name="bday" placeholder="태어난 날짜" maxlength="2">
+                                </span>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 mb-3">
+                        <button class="btn btn-primary btn-lg btn-block" type="button" id="signup">가입하기</button>
+                    </div>
+
+                </form>
+            </div>
+            <footer class="my-3 text-center text-small">
+                <p class="mb-1">&copy; 2022 NRNR</p>
+            </footer>
+        </div>
+    </div>
+
+
+    <script src="/js/textLenCheck.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            window.addEventListener('load', () => {
+                for(let i = 1; i<= 12; ++i) {
+                    let opt = document.createElement('option');
+                    opt.value = i;
+                    opt.text = i + '월';
+                    document.querySelector('#bmonth').appendChild(opt);
+                }
+
+                document.querySelector('#signup').addEventListener('click', (event) => {
+                    const username = document.querySelector('#userId');
+                    const password = document.querySelector('#userPw');
+                    const nickname = document.querySelector('#nickname');
+                    const rePw = document.querySelector('#rePw');
+
+                    if(!checkTextLenAndAlert(username, 'id', 100)
+                        || !checkTextLenAndAlert(nickname, '별명', 100)){
+                        return;
+                    }
+                    if(password.value != rePw.value) {
+                        rePw.style.borderColor = '#dc3545';
+                        document.querySelector('#invalidPw').style.display = 'block';
+                        alert('비밀번호가 일치하지 않습니다.');
+                        userPw.focus();
+                        return;
+                    }
+
+                    let itemEntity = {
+                        username: username.value,
+                        password: password.value,
+                        nickname: nickname.value,
+                        phone: document.querySelector('#phone').value,
+                        location: document.querySelector('#location').value,
+                        byear: document.querySelector('#byear').value,
+                        bmonth: bmonth.options[bmonth.selectedIndex].value,
+                        bday: document.querySelector('#bday').value
+                    };
+
+                    axios.post('/register', itemEntity)
+                        .then(function (response) {
+                            console.log(response);
+                            location.href= response.data;
+                        }).catch(function (error){
+                            alert('회원가입에 실패했습니다.');
+                        console.log(error);
+                    });
+                });
+
+                /*const forms = document.getElementsByClassName('validation-form');
+
+                Array.prototype.filter.call(forms, (form) => {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+
+                        if(userPw.value!=rePw.value){
+                            rePw.style.borderColor = '#dc3545';
+                            document.querySelector('#invalidPw').style.display = 'block';
+                            alert('비밀번호가 일치하지 않습니다.');
+                            userPw.focus();
+                            return false;
+                        }
+                    }, false);
+                });*/
+            }, false);
+
+        </script>
+    </body>
+</html>

@@ -31,7 +31,7 @@ public class User {
 
     @Column(columnDefinition = "varchar(20) not null")
     private String nickname;
-    @Column(columnDefinition = "varchar(100) not null")
+    @Column(columnDefinition = "varchar(100)")
     private String nation;
     @Column(columnDefinition = "varchar(12) not null")
     private String phone;

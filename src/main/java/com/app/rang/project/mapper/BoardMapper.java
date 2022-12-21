@@ -1,6 +1,6 @@
 package com.app.rang.project.mapper;
 
-import com.app.rang.project.model.BoardListModel;
+import com.app.rang.project.model.board.BoardListModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

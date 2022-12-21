@@ -1,4 +1,4 @@
-package com.app.rang.project.model;
+package com.app.rang.project.model.board;
 
 import lombok.*;
 

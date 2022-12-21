@@ -1,9 +1,8 @@
 package com.app.rang.project.controller.board;
 
-import com.app.rang.project.entity.Board;
-import com.app.rang.project.model.BoardListModel;
-import com.app.rang.project.model.BoardViewModel;
-import com.app.rang.project.model.BoardWriteRequest;
+import com.app.rang.project.model.board.BoardListModel;
+import com.app.rang.project.model.board.BoardViewModel;
+import com.app.rang.project.model.board.BoardWriteRequest;
 import com.app.rang.project.service.board.BoardListService;
 import com.app.rang.project.service.board.BoardViewService;
 import com.app.rang.project.service.board.BoardWriteService;

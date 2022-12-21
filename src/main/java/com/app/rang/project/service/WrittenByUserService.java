@@ -2,8 +2,8 @@ package com.app.rang.project.service;
 
 import com.app.rang.project.entity.Board;
 import com.app.rang.project.entity.Comment;
-import com.app.rang.project.model.BoardListModel;
 import com.app.rang.project.model.CommentListModel;
+import com.app.rang.project.model.board.BoardListModel;
 import com.app.rang.project.repository.BoardRepository;
 import com.app.rang.project.repository.CommentRepository;
 import lombok.extern.log4j.Log4j2;

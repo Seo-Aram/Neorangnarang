@@ -1,6 +1,6 @@
 package com.app.rang.project.entity;
 
-import com.app.rang.project.model.BoardListModel;
+import com.app.rang.project.model.board.BoardListModel;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
