@@ -137,26 +137,6 @@
                         console.log(error);
                     });
                 });
-
-                /*const forms = document.getElementsByClassName('validation-form');
-
-                Array.prototype.filter.call(forms, (form) => {
-                    form.addEventListener('submit', function (event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-
-                        if(userPw.value!=rePw.value){
-                            rePw.style.borderColor = '#dc3545';
-                            document.querySelector('#invalidPw').style.display = 'block';
-                            alert('비밀번호가 일치하지 않습니다.');
-                            userPw.focus();
-                            return false;
-                        }
-                    }, false);
-                });*/
             }, false);
 
         </script>
