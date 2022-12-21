@@ -39,9 +39,9 @@ public class WrittenByUserController {
 
         ModelAndView mav = new ModelAndView();
         mav.clear();
-        Comment comment = null;
-        mav.addObject("myCommentList", comment);
-        mav.setViewName("view/board/list");
+        long useridx = 0;
+        mav.addObject("myCommentList", byUserService.printMyComment(useridx));
+        mav.setViewName("view/user/mycomment");
 
         return mav;
 

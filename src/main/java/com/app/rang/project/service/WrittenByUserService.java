@@ -1,7 +1,9 @@
 package com.app.rang.project.service;
 
 import com.app.rang.project.entity.Board;
+import com.app.rang.project.entity.Comment;
 import com.app.rang.project.model.BoardListModel;
+import com.app.rang.project.model.CommentListModel;
 import com.app.rang.project.repository.BoardRepository;
 import com.app.rang.project.repository.CommentRepository;
 import lombok.extern.log4j.Log4j2;
@@ -34,5 +36,17 @@ public class WrittenByUserService {
 
     }
 
+    public List<CommentListModel> printMyComment(long useridx){
+
+        List<CommentListModel> list = new ArrayList<>();
+        List<Comment> comments = commentRepository.findByUseridx(useridx);
+
+        for (Comment comment : comments){
+            list.add(comment.toCommentView());
+        }
+
+        return list;
+
+    }
 
 }

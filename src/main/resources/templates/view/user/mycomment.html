@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <meta charset="UTF-8">
+      <title>내가 쓴 댓글</title>
+  </head>
+  <body>
+
+  <h1>My Comments</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>댓글 번호</th>
+        <th>게시글 번호</th>
+        <th>닉네임</th>
+        <th>내용</th>
+        <th>작성일</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="myComment : ${myCommentList}">
+        <td th:text="${myComment.commentidx}">1</td>
+        <td th:text="${myComment.boardidx}">test</td>
+        <td th:text="${myComment.nickname}">tseter</td>
+        <td th:text="${myComment.content}">댓글 내용</td>
+        <td th:text="${myComment.writedate}">2022-12-20</td>
+      </tr>
+    </tbody>
+
+  </table>
+
+  <br>
+
+  <div class="text-end">
+    <a class="btn btn-primary" th:href="@{/user/myboard}" >내가 남긴 게시글</a>
+  </div>
+  <div class="text-end">
+    <a class="btn btn-primary" th:href="@{/mypage}" >이전으로 돌아가기</a>
+  </div>
+
+  </body>
+</html>
