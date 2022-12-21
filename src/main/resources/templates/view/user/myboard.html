@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <meta charset="UTF-8">
+      <title>내가 작성한 게시물</title>
+  </head>
+  <body>
+
+  <h1>내가 작성한 게시글</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>게시글 번호</th>
+        <th>제목</th>
+        <th>썸네일</th>
+        <th>판매상태</th>
+        <th>가격</th>
+        <th>작성일</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="myboard : ${myBoardList}">
+        <td th:text="${myboard.boardidx}">1</td>
+        <td th:text="${myboard.title}">test</td>
+        <td th:text="${myboard.thumbnail}"></td>
+        <td th:text="${myboard.onsale}">판매중</td>
+        <td th:text="${myboard.price}">0</td>
+        <td th:text="${myboard.writedate}">2022-12-20</td>
+      </tr>
+    </tbody>
+
+  </table>
+
+  <br>
+
+  <div class="text-end">
+    <a class="btn btn-primary" th:href="@{/user/mycomment}" >내가 남긴 댓글</a>
+  </div>
+  <div class="text-end">
+    <a class="btn btn-primary" th:href="@{/mypage}" >이전으로 돌아가기</a>
+  </div>
+
+  </body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Page</title>
+</head>
+<body>
+
+  <h1>마이페이지</h1>
+
+  <div class="text-end">
+    <a  class="btn btn-primary" th:href="@{/user/myboard}">내가 남긴 게시글</a>
+  </div>
+  <div class="text-end">
+    <a class="btn btn-primary" th:href="@{/user/mycomment}" >내가 남긴 댓글</a>
+  </div>
+
+</body>
+</html>
