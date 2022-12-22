@@ -1,6 +1,7 @@
 package com.app.rang.project.controller.board;
 
 import com.app.rang.project.entity.Board;
+import com.app.rang.project.model.AuthUserDTO;
 import com.app.rang.project.model.board.BoardListModel;
 import com.app.rang.project.model.board.BoardViewModel;
 import com.app.rang.project.model.board.BoardWriteRequest;
@@ -12,10 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.*;
 import java.util.List;
 
@@ -77,6 +80,7 @@ public class BoardRestController {
 
     @GetMapping("/{page}/{idx}")
     public ModelAndView getViewPage(
+            @AuthenticationPrincipal AuthUserDTO userDTO,
             @PathVariable("page") int page,
             @PathVariable("idx") long boardIdx
     ) {
@@ -89,10 +93,16 @@ public class BoardRestController {
         mav.addObject("board", board);
         if(page == 1) {
             mav.addObject("commentList", commentListService.selectBoardCommentLimit(boardIdx, 0));
+            mav.addObject("isMine", board.getUseridx() == userDTO.getUseridx());
             mav.setViewName("view/board/view");
         } else if(page == 2) {
-            mav.addObject("itemCategory", CategoryUtil.categoryNames);
-            mav.setViewName("view/board/update");
+            if(userDTO.getUseridx() == board.getUseridx()) {
+                mav.addObject("itemCategory", CategoryUtil.categoryNames);
+                mav.setViewName("view/board/update");
+            } else {
+                mav.addObject("msg", "게시글은 본인만 수정할 수 있습니다.");
+                mav.setViewName("view/board/view");
+            }
         }
 
         return mav;
@@ -100,20 +110,23 @@ public class BoardRestController {
 
     @PostMapping
     public ResponseEntity<String> postWritePage(
-            @RequestBody BoardWriteRequest itemEntity
+            @AuthenticationPrincipal AuthUserDTO userDTO,
+            @RequestBody BoardWriteRequest writeRequest
     ) {
-        log.info(itemEntity);
+        log.info(writeRequest);
 
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        if((itemEntity.getTitle() == null  || itemEntity.getTitle().isEmpty())
-                || (itemEntity.getContent() == null  || itemEntity.getContent().isEmpty())
-                || (itemEntity.getPrice() <= 0)) {
+        if((writeRequest.getTitle() == null  || writeRequest.getTitle().isEmpty())
+                || (writeRequest.getContent() == null  || writeRequest.getContent().isEmpty())
+                || (writeRequest.getPrice() <= 0)) {
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.BAD_REQUEST);
         }
+        log.info(writeRequest);
 
-        log.info(itemEntity);
-        int result = boardWriteService.writeBoard(itemEntity);
+        Board board = writeRequest.toBoardEntity();
+        board.setUseridx(userDTO.getUseridx());
+        int result = boardWriteService.writeBoard(board);
 
         return new ResponseEntity<>("/", httpHeaders, HttpStatus.OK);
     }
@@ -135,7 +148,6 @@ public class BoardRestController {
         }
 
         log.info("board ------> " + board);
-        board.setUseridx(0L);
         int r = boardUpdateService.updateBoard(board);
         log.info("r ------> " + r);
 
@@ -164,14 +176,18 @@ public class BoardRestController {
 
     @DeleteMapping("/{idx}")
     public ResponseEntity<String> deleteItem(
+            @AuthenticationPrincipal AuthUserDTO userDTO,
             @PathVariable("idx") long boardIdx
     ){
-        int result = boardDeleteService.deleteBoard(boardIdx);
+        BoardViewModel board = boardViewService.getBoard(boardIdx);
         String body = "";
-        if(result > 0) {
-            body = "/board/list";
+        if(board.getUseridx() == userDTO.getUseridx()) {
+            int result = boardDeleteService.deleteBoard(boardIdx);
+            if(result > 0) {
+                body = "/board/list";
+            }
         }
-
+        
         return new ResponseEntity<>(body, new HttpHeaders(), HttpStatus.OK);
     }
 }

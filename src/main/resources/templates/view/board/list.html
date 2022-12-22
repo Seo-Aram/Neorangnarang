@@ -67,7 +67,7 @@
     <input type="hidden" id="lastItemIdx" th:value="${last}"/>
     <input type="button" id="nextItems" class="btn btn-outline-secondary" style="min-width: 100%" value="▼"/>
   </div>
-  <div class="addItem col-md-1">
+  <div sec:authorize="isAuthenticated()" class="addItem col-md-1">
     <a href="/board" class="btn btn-secondary">　+　</a>
   </div>
   </body>

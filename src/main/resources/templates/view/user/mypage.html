@@ -23,19 +23,19 @@
   <div>
       <div class="mydiv mb-3">
           <label class="form-label mt-3">내 가입날짜</label>
-          <input type="text" id="joinDate" name="joinDate" th:value="${user.joindate}" readonly>
+          <input type="text" id="joinDate" name="joinDate" th:value="${joindate}" readonly>
       </div>
       <div class="mydiv mb-3">
           <label for="userId" class="form-label mt-3">아이디</label>
-          <input type="text"id="userId" name="userId"  th:value="${user.username}" readonly>
+          <input type="text"id="userId" name="userId"  th:value="${username}" readonly>
       </div>
       <div class="mydiv mb-3">
           <label for="nickname" class="form-label mt-3">닉네임</label>
-          <input type="text" id="nickname" name="nickname"  th:value="${user.nickname}" readonly>
+          <input type="text" id="nickname" name="nickname"  th:value="${nickname}" readonly>
       </div>
       <div class="mydiv mb-3">
           <label for="location" class="form-label mt-3">지역</label>
-          <input type="text" id="location" name="location"  th:value="${user.location}" readonly>
+          <input type="text" id="location" name="location"  th:value="${location}" readonly>
       </div>
   </div>
 

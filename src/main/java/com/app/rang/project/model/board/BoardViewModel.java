@@ -14,6 +14,8 @@ import java.util.List;
 public class BoardViewModel {
     private long boardidx;
 
+    private long useridx;
+
     private String title;
 
     private String content;

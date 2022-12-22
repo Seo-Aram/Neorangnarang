@@ -43,7 +43,8 @@ public class LoginService implements UserDetailsService {
                 authorities,
                 member.getNickname(),
                 member.getLocation(),
-                member.getJoindate()
+                member.getJoindate(),
+                member.getUseridx()
         );
 
         return authMemberDTO;

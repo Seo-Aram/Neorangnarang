@@ -1,5 +1,6 @@
 package com.app.rang.project.service.board;
 
+import com.app.rang.project.entity.Board;
 import com.app.rang.project.model.board.BoardWriteRequest;
 import com.app.rang.project.repository.BoardRepository;
 import com.app.rang.project.util.Util;
@@ -23,11 +24,11 @@ public class BoardWriteService {
     @Autowired
     private BoardRepository boardRepository;
 
-    public int writeBoard(BoardWriteRequest writeRequest){
+    public int writeBoard(Board board){
 
         int result = 0;
         try {
-            result = boardRepository.save(writeRequest.toBoardEntity()) != null ? 1 : 0;
+            result = boardRepository.save(board) != null ? 1 : 0;
         } catch (Exception e) {
 
         }

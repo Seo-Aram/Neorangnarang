@@ -70,6 +70,7 @@ public class Board {
     public BoardViewModel toBoardViewModel() {
         return BoardViewModel.builder()
                 .boardidx(boardidx)
+                .useridx(useridx)
                 .title(title)
                 .content(content)
                 .onsale(onsale)

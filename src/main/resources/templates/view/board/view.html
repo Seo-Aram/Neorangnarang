@@ -70,7 +70,7 @@
       </div>
       <div class="col-md-12" >
         <a href="/board/list" class="btn btn-outline-primary">목록</a>
-        <th:block th:if="${true}">
+        <th:block th:if="${isMine}">
           <input type="button" class="btn btn-outline-secondary" value="수정" id="updateItem"/>
           <input type="button" class="btn btn-outline-danger" value="삭제" id="deleteItem"/>
         </th:block>
@@ -82,6 +82,12 @@
 
   </main>
   </body>
+  <th:block th:if="${msg != null}">
+    <script>
+      alert("[[${msg}]]");
+      location.href='/board/1/'+[[${board.boardidx}]];
+    </script>
+  </th:block>
   <script>
     let slideIndex = 1;
     showSlides(slideIndex);
@@ -112,19 +118,25 @@
       dots[slideIndex-1].className += " active";
     }
     document.addEventListener('DOMContentLoaded', () => {
-      document.querySelector('#updateItem').addEventListener('click', (event)=>{
-        location.href='/board/2/'+[[${board.boardidx}]];
-      });
-      document.querySelector('#deleteItem').addEventListener('click', (event)=>{
-        if(!confirm('게시글을 삭제 하시겠습니까?\r\n삭제한 게시글은 복구할 수 없습니다.')) return;
-        axios.delete('/board/'+[[${board.boardidx}]])
-                .then(function(response) {
-                  if(response.data != '')
-                    location.href = response.data;
-                  else
-                    alert('게시글 삭제 실패!');
-                });
-      });
+      const updateItem = document.querySelector('#updateItem');
+      const deleteItem = document.querySelector('#deleteItem');
+      if(updateItem != undefined) {
+        updateItem.addEventListener('click', (event) => {
+          location.href = '/board/2/' + [[${board.boardidx}]];
+        });
+      }
+      if(deleteItem != undefined) {
+        deleteItem.addEventListener('click', (event) => {
+          if (!confirm('게시글을 삭제 하시겠습니까?\r\n삭제한 게시글은 복구할 수 없습니다.')) return;
+          axios.delete('/board/' + [[${board.boardidx}]])
+                  .then(function (response) {
+                    if (response.data != '')
+                      location.href = response.data;
+                    else
+                      alert('게시글 삭제 실패!');
+                  });
+        });
+      }
     });
   </script>
 </html>
