@@ -39,13 +39,14 @@ $(document).ready(function (){
 
     $('#nextComment').click( function (){
         let lastIdx = $('#lastCommentIdx').val();
+        let boardIdx = $('#boardIdx').val();
         $.ajax( {
-            url : '/comment/${board.boardidx}/'+lastIdx,
+            url : '/comment/'+boardIdx+'/'+lastIdx,
             type: 'get',
             async : true,
             dataType : 'json',
             success : function (data){
-                let obj = data.data;
+                let obj = data;
                 appendCommentRow(obj);
             },
             error : function (request, status, error) {
@@ -77,7 +78,7 @@ function deleteComment(idx){
 
 function makeCommentRow(nickname, content, writedate, commentUserIdx, commentidx) {
     let deleteBtn = '<input type="button" value="삭제" class="delete-btn btn btn-outline-danger" onclick="deleteComment('+commentidx+')"/>';
-    let appendTag = '<div class="col-sm-12" id="row-${comment.commentidx}">'
+    let appendTag = '<div class="col-sm-12" id="row-'+commentidx+'">'
         +'	<div class="comment-row row">'
         +'		<div class="col-md-2"></div>'
         +'		<div class="col-md-8">'
@@ -88,7 +89,7 @@ function makeCommentRow(nickname, content, writedate, commentUserIdx, commentidx
         +'		<div class="col-md-2"></div>'
         +'		<div class="col-md-2"></div>'
         +'		<div class="col-md-8">'
-        +'			<p class="card-text">'+content+'</p>'
+        +'			<p class="card-text" >'+content+'</p>'
         +'		</div>'
         +'		<div class="col-md-2"></div>'
         +'	</div>'
@@ -100,19 +101,20 @@ function makeCommentRow(nickname, content, writedate, commentUserIdx, commentidx
 function appendCommentRow(obj) {
     if(obj.length == 0) {
         // 안보이게 처리
-        $('#nextComment').style.visibility = 'hidden';
+        $('#nextComment').css('visibility', 'hidden');
     } else {
         // 여기서 append 시켜줘야 함
-        $('#nextComment').style.visibility = 'visible';
-        obj.forEach((e) => {
+        $('#nextComment').css('visibility', 'visible');
+
+        $.each(obj, function(index, e) {
             let appendHtml = '';
-            let div = $('div');
-            div.attr('class', 'row');
-            div.attr('id', 'row-'+e.commentIdx);
-            appendHtml += makeCommentRow(e.nickname, e.content, e.writedate, e.useridx, e.commentIdx);
+            let div = document.createElement('div');
+            div.setAttribute('class', 'row');
+            div.setAttribute('id', 'row-'+e.commentidx);
+            appendHtml += makeCommentRow(e.nickname, e.content, e.writedate, e.useridx, e.commentidx);
             div.innerHTML = appendHtml;
-            $('#commentListDiv').appendTo(div);
+            document.querySelector('#commentListDiv').appendChild(div);
         });
-        $('#lastCommentIdx').val(obj[obj.length-1].commentIdx);
+        $('#lastCommentIdx').val(obj[obj.length-1].commentidx);
     }
 }

@@ -19,19 +19,18 @@
 
 <body>
 
-  <main th:fragment="commentParam(p)">
-
+  <main th:fragment="commentParam(commentList, boardidx)">
     <div id="commentListDiv" class="container-sm">
       <div th:each="comment : ${commentList}">
-        <div class="col-sm-12" id="row-${comment.commentidx}">
+        <div class="col-sm-12" th:id="${'row-'+comment.commentidx}">
           <div class="comment-row row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-              <strong>[[${comment.nickname}]]</strong>
+              <strong th:text="${comment.nickname}"></strong>
               <small>[[${comment.writedate}]]</small>
-              <!--<div th:if="${item.userIdx == loginInfo.userIdx}">
+              <!--/*<div th:if="${item.userIdx == loginInfo.userIdx}">
                 <a th:if="${loginInfo.userIdx == comment.userIdx}"><input type="button" value="삭제" class="delete-btn btn btn-outline-danger" onclick="deleteComment(${comment.commentIdx})"></a>
-              </div>-->
+              </div>*/-->
             </div>
             <div class="col-md-2"></div>
             <div class="col-md-2"></div>
@@ -49,7 +48,7 @@
         <div class="row">
           <div class="col-md-2"></div>
           <div class="col-md-8">
-            <input type="hidden" id="lastCommentIdx" value="${commentList.size() != 0 ? commentList[commentList.size()-1].commentidx : 0}"/>
+            <input type="hidden" id="lastCommentIdx" th:value="${commentList != null && commentList.size() != 0 ? commentList[commentList.size()-1].commentidx : 0}"/>
             <input type="button" id="nextComment" class="btn btn-outline-secondary" style="min-width: 100%" value="▼"/>
           </div>
           <div class="col-md-2"></div>
@@ -71,7 +70,7 @@
         <div class="col-sm-1">
           <input type="button" id="commentSubmit" class="btn btn-outline-secondary" style="min-width: 100%; min-height: 100%" value="작성">
         </div>
-        <input type="hidden" th:value="${p}" id="boardIdx"/>
+        <input type="hidden" th:value="${boardidx}" id="boardIdx"/>
       </div>
     </div>
 
@@ -80,6 +79,7 @@
             crossorigin="anonymous">
     </script>
 
+    <script src="/js/textLenCheck.js"></script>
     <script src="/js/comment.js"></script>
 
 

@@ -6,6 +6,7 @@ import com.app.rang.project.model.board.BoardWriteRequest;
 import com.app.rang.project.service.board.BoardListService;
 import com.app.rang.project.service.board.BoardViewService;
 import com.app.rang.project.service.board.BoardWriteService;
+import com.app.rang.project.service.comment.CommentListService;
 import com.app.rang.project.util.CategoryUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class BoardRestController {
 
     @Autowired
     BoardViewService boardViewService;
+
+    @Autowired
+    private CommentListService commentListService;
 
     @GetMapping
     public ModelAndView getWritePage(
@@ -81,7 +85,7 @@ public class BoardRestController {
         ModelAndView mav = new ModelAndView();
         mav.clear();
         mav.addObject("board", board);
-        //mav.addObject("commentList", commentListService.selectBoardCommentLimit(boardIdx, 0));
+        mav.addObject("commentList", commentListService.selectBoardCommentLimit(boardIdx, 0));
         mav.setViewName("view/board/view");
 
         return mav;

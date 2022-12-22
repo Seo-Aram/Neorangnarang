@@ -39,6 +39,8 @@ public class CommentRestController {
         List<CommentListModel> list = commentListService.selectBoardCommentLimit(boardidx, lastCommentIdx);
         model.addAttribute("commentList", list);
 
+        log.info("list >>>>>>>> " + list);
+
         return new ResponseEntity<>(list, HttpStatus.OK);
 
     }
