@@ -10,11 +10,11 @@ import java.util.List;
 @Mapper
 public interface CommentMapper {
 
-    @Select("SELECT * FROM boardcomment WHERE boardidx = #{boardidx} AND commentidx > #{lastIdx} ORDER BY commentidx ASC LIMIT 0, 50")
-    List<Comment> selectCommentByLastCommentIdxLimit(long boardidx, long lastIdx);
+    @Select("SELECT * FROM boardcomment WHERE boardidx = #{boardidx} AND commentidx > #{lastidx} ORDER BY commentidx ASC LIMIT 0, 50")
+    List<Comment> selectCommentByLastCommentIdxLimit(long boardidx, long lastidx);
 
-    @Select("SELECT * FROM boardcomment WHERE boardidx = #{boardidx} AND commentidx > #{lastIdx} ORDER BY commentidx ASC")
-    List<Comment> selectCommentByLastCommentIdx(long boardidx, long lastIdx);
+    @Select("SELECT * FROM boardcomment WHERE boardidx = #{boardidx} AND commentidx > #{lastidx} ORDER BY commentidx ASC")
+    List<Comment> selectCommentByLastCommentIdx(long boardidx, long lastidx);
 
 
 }

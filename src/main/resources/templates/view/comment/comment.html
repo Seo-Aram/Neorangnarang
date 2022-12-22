@@ -28,9 +28,9 @@
             <div class="col-md-8">
               <strong th:text="${comment.nickname}"></strong>
               <small>[[${comment.writedate}]]</small>
-              <!--/*<div th:if="${item.userIdx == loginInfo.userIdx}">
-                <a th:if="${loginInfo.userIdx == comment.userIdx}"><input type="button" value="삭제" class="delete-btn btn btn-outline-danger" onclick="deleteComment(${comment.commentIdx})"></a>
-              </div>*/-->
+              <div name="del-btn">
+                <a class="delete-btn btn btn-outline-danger del" th:onclick="deleteComment([[${comment.commentidx}]])">삭제</a>
+              </div>
             </div>
             <div class="col-md-2"></div>
             <div class="col-md-2"></div>
@@ -74,10 +74,10 @@
       </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+<!--    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
             integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
             crossorigin="anonymous">
-    </script>
+    </script>-->
 
     <script src="/js/textLenCheck.js"></script>
     <script src="/js/comment.js"></script>

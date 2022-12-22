@@ -3,9 +3,6 @@ package com.app.rang.project.model;
 import com.app.rang.project.entity.Comment;
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
-import java.time.LocalDate;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -14,10 +11,8 @@ import java.time.LocalDate;
 @Builder
 public class CommentWriteRequest {
 
-
-    private Long commentidx;
-    private Long boardidx;
-    private Long useridx;
+    private long boardidx;
+    private long useridx;
     private String nickname;
     private  String content;
 
