@@ -20,6 +20,25 @@
 
   <h1>마이페이지</h1>
 
+  <div>
+      <div class="mydiv mb-3">
+          <label class="form-label mt-3">내 가입날짜</label>
+          <input type="text" id="joinDate" name="joinDate" th:value="${user.joindate}" readonly>
+      </div>
+      <div class="mydiv mb-3">
+          <label for="userId" class="form-label mt-3">아이디</label>
+          <input type="text"id="userId" name="userId"  th:value="${user.username}" readonly>
+      </div>
+      <div class="mydiv mb-3">
+          <label for="nickname" class="form-label mt-3">닉네임</label>
+          <input type="text" id="nickname" name="nickname"  th:value="${user.nickname}" readonly>
+      </div>
+      <div class="mydiv mb-3">
+          <label for="location" class="form-label mt-3">지역</label>
+          <input type="text" id="location" name="location"  th:value="${user.location}" readonly>
+      </div>
+  </div>
+
   <div class="text-end">
     <a  class="btn btn-primary" th:href="@{/user/myboard}">내가 남긴 게시글</a>
   </div>

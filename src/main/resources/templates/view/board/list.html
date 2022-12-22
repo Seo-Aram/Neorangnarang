@@ -38,7 +38,7 @@
     <div class="container-lg">　 </div>
     <div class="container-lg">　 </div>
     <div class="container-lg">
-      <a th:each="item: ${itemList}" th:href="@{/board/{boardidx}(boardidx=${item.boardidx})}" class="aTag">
+      <a th:each="item: ${itemList}" th:href="@{/board/1/{boardidx}(boardidx=${item.boardidx})}" class="aTag">
         <div name="item" class="row mb-3 row-item">
           <div class="col-md-4 ">
             <th:block th:if="${item.thumbnail != null}">

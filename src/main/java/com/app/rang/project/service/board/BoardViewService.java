@@ -19,17 +19,6 @@ public class BoardViewService {
 
     public BoardViewModel getBoard(long boardidx) {
         Board board =  boardRepository.findByBoardidx(boardidx);
-
-
-        return BoardViewModel.builder()
-                .boardidx(boardidx)
-                .title(board.getTitle())
-                .content(board.getContent())
-                .onsale(board.getOnsale())
-                .price(board.getPrice())
-                .img(new ArrayList<String>(Arrays.asList(board.getImg().split(","))))
-                .category(CategoryUtil.categoryNames.get(board.getCategory()))
-                .writedate(board.getWritedate().toString())
-                .build();
+        return board.toBoardViewModel();
     }
 }

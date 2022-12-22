@@ -1,4 +1,4 @@
-package com.app.rang.project.controller;
+package com.app.rang.project.controller.user;
 
 import com.app.rang.project.entity.Board;
 import com.app.rang.project.entity.Comment;

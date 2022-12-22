@@ -58,7 +58,7 @@
               <strong>[[${board.price}]] 원</strong>
             </div>
             <div class="col-md-4 ">
-              <strong>[[${board.category}]]</strong>
+              <strong>[[${board.categoryStr}]]</strong>
             </div>
           </div>
         </div>
@@ -68,12 +68,13 @@
           <pre>[[${board.content}]]</pre>
         </div>
       </div>
-      <th:block th:if="${true}">
       <div class="col-md-12" >
+        <a href="/board/list" class="btn btn-outline-primary">목록</a>
+        <th:block th:if="${true}">
           <input type="button" class="btn btn-outline-secondary" value="수정" id="updateItem"/>
           <input type="button" class="btn btn-outline-danger" value="삭제" id="deleteItem"/>
+        </th:block>
       </div>
-      </th:block>
     </div>
     <hr/>
 
@@ -112,17 +113,17 @@
     }
     document.addEventListener('DOMContentLoaded', () => {
       document.querySelector('#updateItem').addEventListener('click', (event)=>{
-        // location.href='/app/v1/item/'+${item.boardIdx} + '/'+${loginInfo.userIdx};
+        location.href='/board/2/'+[[${board.boardidx}]];
       });
       document.querySelector('#deleteItem').addEventListener('click', (event)=>{
         if(!confirm('게시글을 삭제 하시겠습니까?\r\n삭제한 게시글은 복구할 수 없습니다.')) return;
-        /*axios.delete('/app/v1/item/'+${item.boardIdx})
+        axios.delete('/board/'+[[${board.boardidx}]])
                 .then(function(response) {
                   if(response.data != '')
                     location.href = response.data;
                   else
                     alert('게시글 삭제 실패!');
-                });*/
+                });
       });
     });
   </script>

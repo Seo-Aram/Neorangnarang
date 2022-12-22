@@ -1,12 +1,16 @@
 package com.app.rang.project.entity;
 
 import com.app.rang.project.model.board.BoardListModel;
+import com.app.rang.project.model.board.BoardViewModel;
+import com.app.rang.project.util.CategoryUtil;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -45,10 +49,10 @@ public class Board {
     @JoinColumn(name = "useridx")
     private User useridx;*/
 
-    @Column(columnDefinition = "bigint not null default 0")
+    @Column(columnDefinition = "bigint not null default 0", updatable = false)
     private Long useridx;
 
-    @Column(columnDefinition = "timestamp not null default current_timestamp()")
+    @Column(columnDefinition = "timestamp not null default current_timestamp()", updatable = false)
     private LocalDate writedate;
 
 
@@ -59,6 +63,21 @@ public class Board {
                 .thumbnail(thumbnail)
                 .onsale(onsale)
                 .price(price)
+                .writedate(writedate.toString())
+                .build();
+    }
+
+    public BoardViewModel toBoardViewModel() {
+        return BoardViewModel.builder()
+                .boardidx(boardidx)
+                .title(title)
+                .content(content)
+                .onsale(onsale)
+                .price(price)
+                .thumbnail(thumbnail)
+                .img(new ArrayList<String>(Arrays.asList(img.split(","))))
+                .category(category)
+                .categoryStr(CategoryUtil.categoryNames.get(category))
                 .writedate(writedate.toString())
                 .build();
     }

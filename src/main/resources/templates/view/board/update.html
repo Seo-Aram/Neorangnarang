@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>상품 등록</title>
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/base.css"/>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/drop.css"/>
+    <style>
+      .mg-form {
+        margin-top:10px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <div class="container-lg text-center">
+          <h2 class="mt-4">판매글 수정하기</h2>
+        </div>
+        <div class="container-lg">　 </div>
+        <div class="container-lg">　 </div>
+        <div class="container-lg">
+          <div id="dropFileZone" class="row" draggable="true" ondragover="return false" >
+            <div id="dragUploadFile" class="col-sm-12">
+              <select class="dropFileZone col-sm-12" name="fileList" id="fileList" disabled readonly multiple size="min-width:317px">
+                <option th:each="img: ${board.img}" th:value="${img}">[[${img}]]</option>
+              </select>
+              <div class="row">
+                <div class="col-sm-2">
+                  <p><input type="button" class="btn btn-outline-secondary" value="Select File(s)" id="fileExplorer" />
+                    <input type="file" id="selectFile" multiple name ="selectFile" accept=".gif, .png, .jpg"/>
+                  </p>
+                </div>
+                <div class="col-sm-10 text-sm-end text-black-50">
+                  <label id="fileCnt">[[${board.img.size()}]]</label> / 5
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container-lg">　 </div>
+        <div class="container-lg">　 </div>
+        <input type="hidden" name="thumbnail" id="thumbnail" th:value="${board.thumbnail}">
+        <div class="mg-form col-lg-12">
+          <fieldset>
+            <div class="row form-group">
+              <div class="col-sm-2 text-lg-end"> <label for="title" class="form-label mt-sm-2">게시글 제목</label> </div>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="title" th:value="${board.title}" placeholder="게시글 제목을 입력하세요">
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="mg-form col-lg-12">
+          <fieldset>
+            <div class="row form-group">
+              <div class="col-sm-2 text-lg-end">
+                <label for="price" class="form-label mt-sm-2">판매 가격</label>
+              </div>
+              <div class="col-sm-3">
+                <input type="text" class="form-control" id="price" name="price" th:value="${board.price}" placeholder="판매 금액">
+              </div>
+              <div class="col-sm-2 text-lg-end">
+                <label for="price" class="form-label mt-sm-2">카테고리</label>
+              </div>
+              <div class="col-sm-3">
+                <select name="category" class="form-control form-select" id="category">
+                  <th:block th:each="category: ${itemCategory}">
+                    <option th:value="${category.key}" th:selected="${category.key} == ${board.category}">[[${category.value}]]</option>
+                  </th:block>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="mg-form col-lg-12">
+          <fieldset>
+            <div class="row form-group">
+              <div class="col-sm-2 text-lg-end">
+                <label for="content" class="form-label mt-sm-2">내용
+                  <br/>
+                  <small><label id="contentByte">0</label> / 300</small>
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <textarea name="content" class="form-control" id="content" rows="3" style="resize: none;">[[${board.content}]]</textarea>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="mg-form col-lg-12">
+          <fieldset>
+            <div class="row form-group">
+              <div class="col-sm-8"></div>
+              <div class="col-sm-2">
+                <input type="button" value="작성" id="itemSubmit" class="btn btn-outline-success" style="width: 100%; height:100%">
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </main>
+  </body>
+  <script src="/js/drop.js"></script>
+  <script src="/js/textLenCheck.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      let selectElement = document.querySelectorAll('[name=fileList]');
+      fileList = [...selectElement[0].options].map(o => o.text);
+      fileCnt = fileList.length;
+      document.querySelector('#contentByte').innerText = getTextByte([[${board.content}]]);
+
+      let bytes = 0;
+      const contentArea = document.querySelector('#content');
+
+      //글자수 처리하는 이벤트
+      contentArea.addEventListener('keyup', event => { // textArea 글자수 처리
+        bytes = getTextByte(contentArea.value);
+        document.querySelector('#contentByte').innerText = bytes;
+      });
+
+      // submit(글작성)
+      document.querySelector('#itemSubmit').addEventListener('click', (event) => {
+        const title = document.querySelector('#title');
+        const content = document.querySelector('#content');
+        const price = document.querySelector('#price');
+
+        if(!checkTextLenAndAlert(title, '게시글 제목', 100)
+                || !checkTextLenAndAlert(content, '본문 내용', 300)
+                || !checkPriceAndAlert(price)){
+          return;
+        }
+
+        let itemEntity = {
+          boardidx: [[${board.boardidx}]],
+          title: title.value,
+          content: content.value,
+          price: price.value,
+          category: category.options[category.selectedIndex].value,
+          onsale: [[${board.onsale}]],
+          img: fileList.toString(),
+          thumbnail: document.querySelector('#thumbnail').value
+        };
+
+        axios.post('/board/'+[[${board.boardidx}]], itemEntity)
+                .then(function (response) {
+                  console.log(response);
+                  if(response.data.msg != null)
+                    alert(response.data.msg);
+                  if(response.data.url != null)
+                    location.href= response.data.url;
+                }).catch(function (error){
+          console.log(error);
+        });
+      });
+
+    });
+  </script>
+</html>

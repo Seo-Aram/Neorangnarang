@@ -1,11 +1,10 @@
 package com.app.rang.project.controller.board;
 
+import com.app.rang.project.entity.Board;
 import com.app.rang.project.model.board.BoardListModel;
 import com.app.rang.project.model.board.BoardViewModel;
 import com.app.rang.project.model.board.BoardWriteRequest;
-import com.app.rang.project.service.board.BoardListService;
-import com.app.rang.project.service.board.BoardViewService;
-import com.app.rang.project.service.board.BoardWriteService;
+import com.app.rang.project.service.board.*;
 import com.app.rang.project.service.comment.CommentListService;
 import com.app.rang.project.util.CategoryUtil;
 import lombok.extern.log4j.Log4j2;
@@ -17,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.util.List;
 
@@ -36,12 +33,16 @@ public class BoardRestController {
     BoardViewService boardViewService;
 
     @Autowired
+    BoardDeleteService boardDeleteService;
+
+    @Autowired
+    BoardUpdateService boardUpdateService;
+
+    @Autowired
     private CommentListService commentListService;
 
     @GetMapping
-    public ModelAndView getWritePage(
-            HttpServletRequest request
-    ) {
+    public ModelAndView getWritePage() {
         ModelAndView mav = new ModelAndView();
         mav.clear();
         mav.addObject("itemCategory", CategoryUtil.categoryNames);
@@ -74,8 +75,9 @@ public class BoardRestController {
         return new ResponseEntity<>(itemList, httpHeaders, HttpStatus.OK);
     }
 
-    @GetMapping("/{idx}")
+    @GetMapping("/{page}/{idx}")
     public ModelAndView getViewPage(
+            @PathVariable("page") int page,
             @PathVariable("idx") long boardIdx
     ) {
         BoardViewModel board = boardViewService.getBoard(boardIdx);
@@ -85,15 +87,19 @@ public class BoardRestController {
         ModelAndView mav = new ModelAndView();
         mav.clear();
         mav.addObject("board", board);
-        mav.addObject("commentList", commentListService.selectBoardCommentLimit(boardIdx, 0));
-        mav.setViewName("view/board/view");
+        if(page == 1) {
+            mav.addObject("commentList", commentListService.selectBoardCommentLimit(boardIdx, 0));
+            mav.setViewName("view/board/view");
+        } else if(page == 2) {
+            mav.addObject("itemCategory", CategoryUtil.categoryNames);
+            mav.setViewName("view/board/update");
+        }
 
         return mav;
     }
 
     @PostMapping
     public ResponseEntity<String> postWritePage(
-            HttpServletRequest request,
             @RequestBody BoardWriteRequest itemEntity
     ) {
         log.info(itemEntity);
@@ -111,12 +117,35 @@ public class BoardRestController {
 
         return new ResponseEntity<>("/", httpHeaders, HttpStatus.OK);
     }
+    @PostMapping("/{idx}")
+    public ResponseEntity<Map<String, String>> updateItem(
+            @PathVariable("idx") long boardIdx,
+            @RequestBody Board board
+    ) {
+        log.info(board);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        Map<String, String> result = new HashMap<>();
+
+        if((board.getTitle() == null  || board.getTitle().isEmpty())
+                || (board.getContent() == null  || board.getContent().isEmpty())
+                || (board.getPrice() <= 0)) {
+            result.put("msg", "입력 데이터를 다시 확인해주세요.");
+            return new ResponseEntity<>(result, httpHeaders, HttpStatus.OK);
+        }
+
+        log.info("board ------> " + board);
+        board.setUseridx(0L);
+        int r = boardUpdateService.updateBoard(board);
+        log.info("r ------> " + r);
+
+        result.put("url","/board/1/"+boardIdx);
+        return new ResponseEntity<>(result, httpHeaders, HttpStatus.OK);
+    }
 
     @PostMapping("/upload")
     public ResponseEntity<Map<String, List<String>>> writeItem(
-            MultipartHttpServletRequest multipartRequest,
-            HttpServletRequest request,
-            HttpServletResponse response
+            MultipartHttpServletRequest multipartRequest
     ) {
         Map<String, List<String>> nameList = null;
 
@@ -133,5 +162,16 @@ public class BoardRestController {
         return new ResponseEntity<>(nameList, new HttpHeaders(), HttpStatus.OK);
     }
 
+    @DeleteMapping("/{idx}")
+    public ResponseEntity<String> deleteItem(
+            @PathVariable("idx") long boardIdx
+    ){
+        int result = boardDeleteService.deleteBoard(boardIdx);
+        String body = "";
+        if(result > 0) {
+            body = "/board/list";
+        }
 
+        return new ResponseEntity<>(body, new HttpHeaders(), HttpStatus.OK);
+    }
 }

@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
+    @Transactional
+    @Modifying
+    @Query("delete from Comment c where c.boardidx = :boardidx")
+    int deleteByBoardidx(long boardidx);
 
     // boardidx 별로 comment 보여주기
     @Query("select c from Comment c where c.boardidx = :boardidx")

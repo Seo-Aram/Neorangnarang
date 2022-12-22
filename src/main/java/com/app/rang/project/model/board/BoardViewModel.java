@@ -18,9 +18,13 @@ public class BoardViewModel {
 
     private String content;
 
-    private String category;
+    private int category;
+
+    private String categoryStr;
 
     private List<String> img;
+
+    private String thumbnail;
 
     private int price;
 
