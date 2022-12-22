@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.*;
 import java.util.List;
 
@@ -187,7 +186,7 @@ public class BoardRestController {
                 body = "/board/list";
             }
         }
-        
+
         return new ResponseEntity<>(body, new HttpHeaders(), HttpStatus.OK);
     }
 }

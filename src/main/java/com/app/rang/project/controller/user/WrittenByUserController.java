@@ -1,12 +1,8 @@
 package com.app.rang.project.controller.user;
 
-import com.app.rang.project.entity.Board;
-import com.app.rang.project.entity.Comment;
 import com.app.rang.project.service.WrittenByUserService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
