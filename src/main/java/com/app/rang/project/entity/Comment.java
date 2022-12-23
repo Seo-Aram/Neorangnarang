@@ -26,16 +26,6 @@ public class Comment {
     @Column
     private Long commentidx;
 
-    /*@Column
-    @ManyToOne
-    @JoinColumn(name = "boardidx")
-    private Board boardidx;
-
-    @Column
-    @ManyToOne
-    @JoinColumn(name = "useridx")
-    private User useridx;*/
-
     @Column(columnDefinition = "bigint not null", updatable = false)
     private Long boardidx;
     @Column(columnDefinition = "bigint not null", updatable = false)

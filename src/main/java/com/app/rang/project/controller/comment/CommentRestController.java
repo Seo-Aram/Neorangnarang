@@ -14,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
@@ -58,7 +59,7 @@ public class CommentRestController {
     }
 
     @PostMapping("/{lastCommentIdx}")
-    public ResponseEntity<List<Comment>> writeComment(
+    public ResponseEntity<List<CommentListModel>> writeComment(
             @AuthenticationPrincipal AuthUserDTO userDTO,
             @PathVariable("lastCommentIdx") long lastCommentIdx,
             @RequestBody CommentWriteRequest comment){
@@ -81,9 +82,9 @@ public class CommentRestController {
         comment.setUseridx(userDTO.getUseridx());
         comment.setNickname(userDTO.getNickname());
 
-        List<Comment> list = null;
+        List<CommentListModel> listModel = null;
         try{
-            list = commentWriteService.writeCommentAndSelectList(comment, lastCommentIdx);
+            listModel = commentWriteService.writeCommentAndSelectList(comment, lastCommentIdx, userDTO.getUseridx());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -91,7 +92,7 @@ public class CommentRestController {
 
         log.info("insert comment >>>>>> " + comment);
 
-        return new ResponseEntity<>(list, httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(listModel, httpHeaders, HttpStatus.OK);
 
     }
 

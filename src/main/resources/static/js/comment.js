@@ -117,7 +117,7 @@ function editComment(){
 
 }
 
-function makeCommentRow(nickname, content, writedate, commentUserIdx, commentidx) {
+function makeCommentRow(nickname, content, writedate, commentUserIdx, commentidx, ismine = false) {
     let editBtn = '<div><input type="button" value="수정" class="edit-btn btn btn-outline-secondary" onclick="showEditModal('+commentidx+')"/></div>';
     let deleteBtn = '<div><input type="button" value="삭제" class="delete-btn btn btn-outline-danger" onclick="deleteComment('+commentidx+')"/></div>';
     let appendTag = '<div class="col-sm-12" id="row-'+commentidx+'">'
@@ -127,8 +127,8 @@ function makeCommentRow(nickname, content, writedate, commentUserIdx, commentidx
         +'			<strong>'+nickname+'</strong>'
         +'			<small>'+writedate+'</small>';
     /*appendTag += commentUserIdx == ${loginInfo.useridx} ? deleteBtn : '';*/
-    appendTag += editBtn;
-    appendTag += deleteBtn;
+    appendTag += ismine ? editBtn : '';
+    appendTag += ismine ? deleteBtn : '';
     appendTag += '		</div>'
         +'		<div class="col-md-2"></div>'
         +'		<div class="col-md-2"></div>'
@@ -154,7 +154,7 @@ function appendCommentRow(obj) {
             let div = document.createElement('div');
             div.setAttribute('class', 'row');
             div.setAttribute('id', 'row-'+e.commentidx);
-            appendHtml += makeCommentRow(e.nickname, e.content, e.writedate, e.useridx, e.commentidx);
+            appendHtml += makeCommentRow(e.nickname, e.content, e.writedate, e.useridx, e.commentidx, e.ismine);
             div.innerHTML = appendHtml;
             document.querySelector('#commentListDiv').appendChild(div);
         });

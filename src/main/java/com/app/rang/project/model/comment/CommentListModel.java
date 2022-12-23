@@ -24,4 +24,6 @@ public class CommentListModel {
     private  String content;
     private String writedate;
 
+    private boolean ismine;
+
 }
