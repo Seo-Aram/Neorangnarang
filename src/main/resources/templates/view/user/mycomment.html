@@ -3,41 +3,66 @@
   <head>
       <meta charset="UTF-8">
       <title>내가 쓴 댓글</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
 
-  <h1>My Comments</h1>
+  <div>
+    <h1>My Comments</h1>
 
-  <table>
-    <thead>
-      <tr>
-        <th>댓글 번호</th>
-        <th>게시글 번호</th>
-        <th>닉네임</th>
-        <th>내용</th>
-        <th>작성일</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr th:each="myComment : ${myCommentList}">
-        <td th:text="${myComment.commentidx}">1</td>
-        <td th:text="${myComment.boardidx}">test</td>
-        <td th:text="${myComment.nickname}">tseter</td>
-        <td th:text="${myComment.content}">댓글 내용</td>
-        <td th:text="${myComment.writedate}">2022-12-20</td>
-      </tr>
-    </tbody>
+    <table>
+      <thead>
+        <tr>
+          <th>댓글 번호</th>
+          <th>게시글 번호</th>
+          <th>닉네임</th>
+          <th>내용</th>
+          <th>작성일</th>
+          <th>관리</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="myComment : ${myCommentList}" class="" th:id="${'row-' + myComment.commentidx}">
+          <td th:text="${myComment.commentidx}">1</td>
+          <td th:text="${myComment.boardidx}">test</td>
+          <td th:text="${myComment.nickname}">tseter</td>
+          <td th:text="${myComment.content}">댓글 내용</td>
+          <td th:text="${myComment.writedate}">2022-12-20</td>
+          <td>
+            <a class="auto-width delete-btn btn btn-outline-danger btn-sm" th:text="삭제" th:onclick="deleteComment([[${myComment.commentidx}]])"></a>
+          </td>
+        </tr>
+      </tbody>
 
-  </table>
-
-  <br>
+    </table>
+  </div>
 
   <div class="text-end">
-    <a class="btn btn-primary" th:href="@{/user/myboard}" >내가 남긴 게시글</a>
+    <a class="btn-outline-success block" th:href="@{/user/myboard}" >내가 남긴 게시글</a>
   </div>
   <div class="text-end">
+    <a class="btn btn-primary" th:href="@{/board/list}" >리스트로 이동</a>
     <a class="btn btn-primary" th:href="@{/mypage}" >이전으로 돌아가기</a>
   </div>
 
+  <script>
+
+    function deleteComment(idx){
+      if(!confirm('댓글을 삭제하시겠습니까?\r\n삭제한 댓글은 복구할 수 없습니다.')) return;
+      axios.delete('/comment/'+idx)
+              .then(function(response) {
+                console.log(response);
+                if(response.data > 0) document.querySelector('#row-'+idx).remove();
+              })
+              .catch(function (error){
+                console.log(error);
+                alert("삭제에 실패하였습니다.");
+              });
+    }
+  </script>
+
   </body>
+
+
 </html>

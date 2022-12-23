@@ -154,7 +154,6 @@ function appendCommentRow(obj) {
             document.querySelector('#commentListDiv').appendChild(div);
         });
         document.querySelector('#lastCommentIdx').value = obj[obj.length-1].commentidx;
-        /*// 입력된 값 지워주기
-        document.querySelector('#commentText').value = '';*/
+
     }
 }

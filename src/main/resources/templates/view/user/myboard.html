@@ -3,6 +3,8 @@
   <head>
       <meta charset="UTF-8">
       <title>내가 작성한 게시물</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
 
@@ -19,14 +21,18 @@
         <th>작성일</th>
       </tr>
     </thead>
+
     <tbody>
       <tr th:each="myboard : ${myBoardList}">
         <td th:text="${myboard.boardidx}">1</td>
-        <td th:text="${myboard.title}">test</td>
+        <td>
+          <a th:text="${myboard.title}" th:href="@{/board/1/{boardidx}(boardidx=${myboard.boardidx})}"></a>
+        </td>
         <td th:text="${myboard.thumbnail}"></td>
         <td th:text="${myboard.onsale}">판매중</td>
         <td th:text="${myboard.price}">0</td>
         <td th:text="${myboard.writedate}">2022-12-20</td>
+
       </tr>
     </tbody>
 
@@ -35,9 +41,10 @@
   <br>
 
   <div class="text-end">
-    <a class="btn btn-primary" th:href="@{/user/mycomment}" >내가 남긴 댓글</a>
+    <a class="btn-outline-success block" th:href="@{/user/mycomment}" >내가 남긴 댓글</a>
   </div>
   <div class="text-end">
+    <a class="btn btn-primary" th:href="@{/board/list}" >리스트로 이동</a>
     <a class="btn btn-primary" th:href="@{/mypage}" >이전으로 돌아가기</a>
   </div>
 

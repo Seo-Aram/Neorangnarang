@@ -1,5 +1,6 @@
 package com.app.rang.project.controller.user;
 
+import com.app.rang.project.entity.Board;
 import com.app.rang.project.model.AuthUserDTO;
 import com.app.rang.project.service.WrittenByUserService;
 import lombok.extern.log4j.Log4j2;

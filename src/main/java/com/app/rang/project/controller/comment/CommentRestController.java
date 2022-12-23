@@ -121,13 +121,16 @@ public class CommentRestController {
     @DeleteMapping("/{commentidx}")
     public ResponseEntity<Integer> deleteComment(
             @AuthenticationPrincipal AuthUserDTO userDTO,
-            Comment comment,
             @PathVariable("commentidx") long commentidx){
 
         log.info("delete comment ... ");
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        if(userDTO.getUseridx() != comment.getUseridx()){
+        Comment comment = commentReadService.getComment(commentidx);
+
+        log.info("comment ----------- " + comment);
+
+        if(comment == null || userDTO.getUseridx() != comment.getUseridx()){
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.BAD_REQUEST);
         }
 

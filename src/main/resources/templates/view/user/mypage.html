@@ -41,13 +41,13 @@
 
           <div class="w-100 mb-3 p-3">
               <div class="text-end d-grid gap-2 mb-3">
-                  <a  class="btn btn-primary" th:href="@{/user/myboard}">내가 남긴 게시글</a>
+                  <a  class="btn btn-outline-success block" th:href="@{/user/myboard}">내가 남긴 게시글</a>
+                  <a class="btn btn-outline-success block" th:href="@{/user/mycomment}" >내가 남긴 댓글</a>
               </div>
+
               <div class="text-end d-grid gap-2 mb-3">
-                  <a class="btn btn-primary" th:href="@{/user/mycomment}" >내가 남긴 댓글</a>
-              </div>
-              <div class="text-end d-grid gap-2 mb-3">
-                  <a class="btn btn-success" th:href="@{/}" >메인 화면으로</a>
+                  <a class="btn btn-primary" th:href="@{/board/list}" >리스트로 이동</a>
+                  <a class="btn btn-secondary" th:href="@{/}" >메인 화면으로</a>
               </div>
           </div>
   </div>
