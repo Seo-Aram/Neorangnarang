@@ -2,8 +2,8 @@ package com.app.rang.project.controller.comment;
 
 import com.app.rang.project.entity.Comment;
 import com.app.rang.project.model.AuthUserDTO;
-import com.app.rang.project.model.CommentListModel;
-import com.app.rang.project.model.CommentWriteRequest;
+import com.app.rang.project.model.comment.CommentListModel;
+import com.app.rang.project.model.comment.CommentWriteRequest;
 import com.app.rang.project.service.comment.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Log4j2

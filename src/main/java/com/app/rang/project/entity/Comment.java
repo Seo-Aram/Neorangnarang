@@ -1,6 +1,6 @@
 package com.app.rang.project.entity;
 
-import com.app.rang.project.model.CommentListModel;
+import com.app.rang.project.model.comment.CommentListModel;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;

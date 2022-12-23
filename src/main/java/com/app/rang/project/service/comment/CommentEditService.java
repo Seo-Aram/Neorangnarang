@@ -1,7 +1,6 @@
 package com.app.rang.project.service.comment;
 
 import com.app.rang.project.entity.Comment;
-import com.app.rang.project.model.CommentWriteRequest;
 import com.app.rang.project.repository.CommentRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;

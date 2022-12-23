@@ -1,7 +1,6 @@
 package com.app.rang.project.mapper;
 
 import com.app.rang.project.entity.Comment;
-import com.app.rang.project.model.CommentListModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
