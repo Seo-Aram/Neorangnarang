@@ -33,7 +33,7 @@ public class CustomSecurityConfig {
         // 403 에러시 처리(권한 문제)
 
         //로그아웃 페이지
-        http.logout();//.logoutUrl("/logout");
+        http.logout().logoutSuccessUrl("/");//.logoutUrl("/logout");
 
         //자동 로그인
         http.rememberMe().key("123456789").rememberMeParameter("remember-me").tokenValiditySeconds(60*60*24);
