@@ -1,6 +1,7 @@
 package com.app.rang.project.entity;
 
 import com.app.rang.project.model.CommentListModel;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -35,16 +36,17 @@ public class Comment {
     @JoinColumn(name = "useridx")
     private User useridx;*/
 
-    @Column(columnDefinition = "bigint not null")
+    @Column(columnDefinition = "bigint not null", updatable = false)
     private Long boardidx;
-    @Column(columnDefinition = "bigint not null default 0")
+    @Column(columnDefinition = "bigint not null default 0", updatable = false)
     private Long useridx;
 
-    @Column
+    @Column(updatable = false)
     private String nickname;
     @Column(columnDefinition = "text not null")
     private  String content;
-    @Column(columnDefinition = "timestamp not null default current_timestamp()")
+    @Column(columnDefinition = "timestamp not null default current_timestamp()", updatable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate writedate;
 
     public CommentListModel toCommentView(){

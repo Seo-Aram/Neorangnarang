@@ -24,7 +24,7 @@ public class CustomSecurityConfig {
 
         //페이지 권한 설정
         http.authorizeHttpRequests()
-                .antMatchers("/board/**", "/mypage").authenticated() // 해당 페이지 요청시 인증 요구
+                .antMatchers("/board/**", "/mypage", "/comment/**").authenticated() // 해당 페이지 요청시 인증 요구
                 .antMatchers("/").permitAll(); //누구나 다 들어옴
 
         // 로그인 페이지

@@ -1,16 +1,16 @@
 package com.app.rang.project.controller.comment;
 
 import com.app.rang.project.entity.Comment;
+import com.app.rang.project.model.AuthUserDTO;
 import com.app.rang.project.model.CommentListModel;
 import com.app.rang.project.model.CommentWriteRequest;
-import com.app.rang.project.service.comment.CommentDeleteService;
-import com.app.rang.project.service.comment.CommentListService;
-import com.app.rang.project.service.comment.CommentWriteService;
+import com.app.rang.project.service.comment.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +30,12 @@ public class CommentRestController {
 
     @Autowired
     private CommentDeleteService commentDeleteService;
+
+    @Autowired
+    private CommentEditService commentEditService;
+
+    @Autowired
+    private CommentReadService commentReadService;
 
 
     @GetMapping("/{boardidx}/{lastCommentIdx}")
@@ -85,6 +91,19 @@ public class CommentRestController {
 
     }
 
+    @PostMapping("/{boardidx}/{commentidx}")
+    public ResponseEntity<Integer> editComment(
+            @AuthenticationPrincipal AuthUserDTO userDTO,
+            @PathVariable("commentidx") long commentidx,
+            @RequestBody Comment comment){
+
+        log.info("edit comment ... ");
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        comment.setUseridx(userDTO.getUseridx());
+        return new ResponseEntity<>(commentEditService.editComment(comment), httpHeaders, HttpStatus.OK);
+    }
+
 
     @DeleteMapping("/{commentidx}")
     public ResponseEntity<Integer> deleteComment(@PathVariable("commentidx") long commentidx){
@@ -95,6 +114,12 @@ public class CommentRestController {
         return new ResponseEntity<>(commentDeleteService.deleteComment(commentidx), httpHeaders, HttpStatus.OK);
 
     }
+
+/*    @GetMapping("/{commentidx}")
+    public ResponseEntity<Comment> getaComment(@PathVariable("commentidx")long commentidx){
+
+        return new ResponseEntity<>(commentReadService.getComment(commentidx), HttpStatus.OK);
+    }*/
 
 
 }

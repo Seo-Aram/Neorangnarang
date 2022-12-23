@@ -126,6 +126,7 @@ function appendCommentRow(obj) {
 
 
 document.addEventListener("DOMContentLoaded", ()=> {
+
     const commentText = document.querySelector('#commentText');
 
     //글자수 처리하는 이벤트
@@ -143,11 +144,17 @@ document.addEventListener("DOMContentLoaded", ()=> {
             boardidx : document.querySelector('#boardIdx').value,
             content: commentText.value
         };
+
         axios.post('/comment/'+document.querySelector('#lastCommentIdx').value, data)
             .then(function (response){
                 console.log(response);
                 let obj = response.data;
                 appendCommentRow(obj);
+
+                // 입력된 값 지워주기
+                /*document.querySelector('#commentText').value = '';*/
+                commentText.value = '';
+
             })
             .catch(function(error) {
                 console.log(error);
@@ -156,6 +163,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
     });
 
     document.querySelector('#nextComment').addEventListener('click', (e) => {
+        let boardidx = document.querySelector('#boardIdx').value;
         let lastIdx = document.querySelector('#lastCommentIdx').value;
         axios('/comment/'+boardidx+'}/'+lastIdx)
             .then(function(response){
@@ -163,6 +171,13 @@ document.addEventListener("DOMContentLoaded", ()=> {
                 appendCommentRow(obj);
             });
     });
+
+    const btn_edit = document.querySelector("#btn_edit");
+
+    editModal = new bootstrap.Modal('#commentEditModal');
+
+    btn_edit.addEventListener('click', editComment);
+
 
 });
 
@@ -181,8 +196,56 @@ function deleteComment(idx){
         });
 }
 
+
+// 수정창 띄우기
+function showEditModal(idx){
+
+    // 모달에서 보여주는 show 함수 = read
+    editModal.show();
+
+    // 저장된 data get
+    document.querySelector('#recommentidx').value = idx;
+    document.querySelector('#recontent').value = document.querySelector('#row-'+idx).children[0].children[4].children[0].textContent;
+    document.querySelector('#commentName').value = document.querySelector('#row-'+idx).children[0].children[1].children[0].textContent;
+
+    const data = {
+        content : document.querySelector('#recontent').value,
+        commentidx : document.querySelector('#recommentidx').value
+    };
+
+    
+}
+
+function editComment(){
+
+    console.log();
+
+    const editdata = {
+        boardidx: document.querySelector('#boardIdx').value,
+        commentidx : document.querySelector('#recommentidx').value,
+        content : document.querySelector('#recontent').value
+    }
+
+
+    axios.post('/comment/'+editdata.boardidx+'/'+editdata.commentidx, editdata)
+        .then(function (response){
+            console.log(response.data)
+            if(response.data > 0) {
+                document.querySelector('#row-' + editdata.commentidx).children[0].children[4].children[0].textContent = editdata.content;
+
+                editModal.hide();
+            }
+
+        })
+        .catch(function (error){
+            console.log(error);
+        })
+
+}
+
 function makeCommentRow(nickname, content, writedate, commentUserIdx, commentidx) {
-    let deleteBtn = '<input type="button" value="삭제" class="delete-btn btn btn-outline-danger" onclick="deleteComment('+commentidx+')"/>';
+    let editBtn = '<div><input type="button" value="수정" class="edit-btn btn btn-outline-secondary" onclick="showEditModal('+commentidx+')"/></div>';
+    let deleteBtn = '<div><input type="button" value="삭제" class="delete-btn btn btn-outline-danger" onclick="deleteComment('+commentidx+')"/></div>';
     let appendTag = '<div class="col-sm-12" id="row-'+commentidx+'">'
         +'	<div class="comment-row row">'
         +'		<div class="col-md-2"></div>'
@@ -190,12 +253,13 @@ function makeCommentRow(nickname, content, writedate, commentUserIdx, commentidx
         +'			<strong>'+nickname+'</strong>'
         +'			<small>'+writedate+'</small>';
     /*appendTag += commentUserIdx == ${loginInfo.useridx} ? deleteBtn : '';*/
+    appendTag += editBtn;
     appendTag += deleteBtn;
     appendTag += '		</div>'
         +'		<div class="col-md-2"></div>'
         +'		<div class="col-md-2"></div>'
         +'		<div class="col-md-8">'
-        +'			<p class="card-text">'+content+'</p>'
+        +'			<p class="card-text" >'+content+'</p>'
         +'		</div>'
         +'		<div class="col-md-2"></div>'
         +'	</div>'
@@ -221,5 +285,7 @@ function appendCommentRow(obj) {
             document.querySelector('#commentListDiv').appendChild(div);
         });
         document.querySelector('#lastCommentIdx').value = obj[obj.length-1].commentidx;
+        /*// 입력된 값 지워주기
+        document.querySelector('#commentText').value = '';*/
     }
 }

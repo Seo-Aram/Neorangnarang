@@ -43,6 +43,7 @@ public class CommentWriteService {
         return result;
 
     }
+
     public List<Comment> writeCommentAndSelectList(CommentWriteRequest writeRequest, long lastidx){
 
         Comment comment = writeRequest.toComment();

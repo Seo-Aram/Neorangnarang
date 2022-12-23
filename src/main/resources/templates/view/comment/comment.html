@@ -5,6 +5,11 @@
     <title>Comment</title>
 </head>
 <style>
+  .edit-btn {
+    max-width: 50px;
+    max-height: 37px;
+    font-size: 5px;
+  }
   .delete-btn {
     max-width: 50px;
     max-height: 37px;
@@ -27,15 +32,18 @@
             <div class="col-md-2"></div>
             <div class="col-md-8">
               <strong th:text="${comment.nickname}"></strong>
-              <small>[[${comment.writedate}]]</small>
+              <small th:text="${comment.writedate}"></small>
+              <div name="edit-btn">
+                <a class="edit-btn btn btn-outline-secondary" th:onclick="showEditModal([[${comment.commentidx}]])">수정</a>
+              </div>
               <div name="del-btn">
-                <a class="delete-btn btn btn-outline-danger del" th:onclick="deleteComment([[${comment.commentidx}]])">삭제</a>
+                <a class="delete-btn btn btn-outline-danger" th:onclick="deleteComment([[${comment.commentidx}]])">삭제</a>
               </div>
             </div>
             <div class="col-md-2"></div>
             <div class="col-md-2"></div>
             <div class="col-md-8">
-              <p class="card-text">[[${comment.content}]]</p>
+              <p class="card-text" id="content" th:text="${comment.content}"/>
             </div>
             <div class="col-md-2"></div>
           </div>
@@ -71,6 +79,34 @@
           <input type="button" id="commentSubmit" class="btn btn-outline-secondary" style="min-width: 100%; min-height: 100%" value="작성">
         </div>
         <input type="hidden" th:value="${boardidx}" id="boardIdx"/>
+      </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="commentEditModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">댓글 수정</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">닉네임</label>
+              <input type="text" class="form-control" id="commentName" readonly>
+              <input type="hidden" class="form-control" > <!-- 서버로 보낼 data(idx) -->
+              <input type="hidden" id="recommentidx">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">내용</label>
+              <textarea class="form-control" rows="3" id="recontent"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="btn_edit" class="btn btn-primary">수정 완료</button>
+          </div>
+        </div>
       </div>
     </div>
 
