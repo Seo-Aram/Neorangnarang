@@ -90,18 +90,21 @@ public class BoardRestController {
         ModelAndView mav = new ModelAndView();
         mav.clear();
         mav.addObject("board", board);
-        if(page == 1) {
-            mav.addObject("commentList", commentListService.selectBoardCommentLimit(boardIdx, 0));
-            mav.addObject("isMine", board.getUseridx() == userDTO.getUseridx());
-            mav.addObject("useridx", userDTO.getUseridx());
-            mav.setViewName("view/board/view");
-        } else if(page == 2) {
-            if(userDTO.getUseridx() == board.getUseridx()) {
-                mav.addObject("itemCategory", CategoryUtil.categoryNames);
-                mav.setViewName("view/board/update");
-            } else {
-                mav.addObject("msg", "게시글은 본인만 수정할 수 있습니다.");
+        if(board == null) mav.setViewName("redirect:/board/list");
+        else {
+            if (page == 1) {
+                mav.addObject("commentList", commentListService.selectBoardCommentLimit(boardIdx, 0));
+                mav.addObject("isMine", board.getUseridx() == userDTO.getUseridx());
+                mav.addObject("useridx", userDTO.getUseridx());
                 mav.setViewName("view/board/view");
+            } else if (page == 2) {
+                if (userDTO.getUseridx() == board.getUseridx()) {
+                    mav.addObject("itemCategory", CategoryUtil.categoryNames);
+                    mav.setViewName("view/board/update");
+                } else {
+                    mav.addObject("msg", "게시글은 본인만 수정할 수 있습니다.");
+                    mav.setViewName("view/board/view");
+                }
             }
         }
 

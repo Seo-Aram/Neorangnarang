@@ -15,6 +15,6 @@ public class BoardViewService {
 
     public BoardViewModel getBoard(long boardidx) {
         Board board =  boardRepository.findByBoardidx(boardidx);
-        return board.toBoardViewModel();
+        return board == null ? null : board.toBoardViewModel();
     }
 }
