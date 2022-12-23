@@ -4,64 +4,33 @@
     <meta charset="UTF-8">
     <title>Comment</title>
 </head>
-<style>
-  .edit-btn {
-    max-width: 50px;
-    max-height: 37px;
-    font-size: 5px;
-  }
-  .delete-btn {
-    max-width: 50px;
-    max-height: 37px;
-    font-size: 5px;
-  }
-  .comment-row {
-    padding:20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-</style>
 
 <body>
   <main th:fragment="commentParam(commentList, boardidx, useridx)">
     <div id="commentListDiv" class="container-sm">
       <div th:each="comment : ${commentList}">
-        <div class="col-sm-12" th:id="${'row-'+comment.commentidx}">
+        <div class="cmt col-sm-12 p-3" th:id="${'row-'+comment.commentidx}">
           <div class="comment-row row">
-            <div class="col-md-2"></div>
             <div class="col-md-8">
-              <strong th:text="${comment.nickname}"></strong>
-              <small th:text="${comment.writedate}"></small>
+              <strong class="auto-width" th:text="${comment.nickname}"></strong>
+              <small class="auto-width" th:text="${comment.writedate}"></small>
               <th:block th:if="${comment.useridx == useridx}">
-                <div name="edit-btn">
-                  <a class="edit-btn btn btn-outline-secondary" th:onclick="showEditModal([[${comment.commentidx}]])">수정</a>
-                </div>
-                <div name="del-btn">
-                  <a class="delete-btn btn btn-outline-danger" th:onclick="deleteComment([[${comment.commentidx}]])">삭제</a>
-                </div>
+                <a class="auto-width edit-btn btn btn-outline-secondary btn-sm" th:onclick="showEditModal([[${comment.commentidx}]])">수정</a>
+                <a class="auto-width delete-btn btn btn-outline-danger btn-sm" th:onclick="deleteComment([[${comment.commentidx}]])">삭제</a>
               </th:block>
             </div>
-            <div class="col-md-2"></div>
-            <div class="col-md-2"></div>
             <div class="col-md-8">
               <p class="card-text" id="content" th:text="${comment.content}"/>
             </div>
-            <div class="col-md-2"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="container-lg" style="margin-bottom: 50px;">
-      <div class="col-md-12">
+    <div class="container-sm" style="margin-bottom: 50px;">
         <div class="row">
-          <div class="col-md-2"></div>
-          <div class="col-md-8">
-            <input type="hidden" id="lastCommentIdx" th:value="${commentList != null && commentList.size() != 0 ? commentList[commentList.size()-1].commentidx : 0}"/>
-            <input type="button" id="nextComment" class="btn btn-outline-secondary" style="min-width: 100%" value="▼"/>
-          </div>
-          <div class="col-md-2"></div>
-        </div>
+          <input type="hidden" id="lastCommentIdx" th:value="${commentList != null && commentList.size() != 0 ? commentList[commentList.size()-1].commentidx : 0}"/>
+          <input type="button" id="nextComment" class="btn btn-outline-secondary" style="min-width: 100%" value="▼"/>
       </div>
     </div>
 

@@ -105,7 +105,7 @@ function editComment(){
             console.log(" edit response >>> " + response);
             console.log(response.data)
             if(response.data > 0) {
-                document.querySelector('#row-' + editdata.commentidx).children[0].children[4].children[0].textContent = editdata.content;
+                document.querySelector('#row-' + editdata.commentidx).children[0].children[1].children[0].textContent = editdata.content;
 
                 editModal.hide();
             }
@@ -118,24 +118,19 @@ function editComment(){
 }
 
 function makeCommentRow(nickname, content, writedate, commentUserIdx, commentidx, ismine = false) {
-    let editBtn = '<div><input type="button" value="수정" class="edit-btn btn btn-outline-secondary" onclick="showEditModal('+commentidx+')"/></div>';
-    let deleteBtn = '<div><input type="button" value="삭제" class="delete-btn btn btn-outline-danger" onclick="deleteComment('+commentidx+')"/></div>';
-    let appendTag = '<div class="col-sm-12" id="row-'+commentidx+'">'
+    let editBtn = '<input type="button" value="수정" class="auto-width edit-btn btn btn-outline-secondary btn-sm" onclick="showEditModal('+commentidx+')"/>';
+    let deleteBtn = '<input type="button" value="삭제" class="auto-width delete-btn btn btn-outline-danger btn-sm" onclick="deleteComment('+commentidx+')"/>';
+    let appendTag = '<div class="cmt col-sm-12 p-3" id="row-'+commentidx+'">'
         +'	<div class="comment-row row">'
-        +'		<div class="col-md-2"></div>'
         +'		<div class="col-md-8">'
-        +'			<strong>'+nickname+'</strong>'
-        +'			<small>'+writedate+'</small>';
-    /*appendTag += commentUserIdx == ${loginInfo.useridx} ? deleteBtn : '';*/
+        +'			<strong class="auto-width">'+nickname+'</strong>'
+        +'			<small class="auto-width ">'+writedate+'</small>';
     appendTag += ismine ? editBtn : '';
     appendTag += ismine ? deleteBtn : '';
     appendTag += '		</div>'
-        +'		<div class="col-md-2"></div>'
-        +'		<div class="col-md-2"></div>'
         +'		<div class="col-md-8">'
         +'			<p class="card-text" >'+content+'</p>'
         +'		</div>'
-        +'		<div class="col-md-2"></div>'
         +'	</div>'
         +'</div>';
     return appendTag;
