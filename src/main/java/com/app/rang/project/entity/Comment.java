@@ -38,7 +38,7 @@ public class Comment {
 
     @Column(columnDefinition = "bigint not null", updatable = false)
     private Long boardidx;
-    @Column(columnDefinition = "bigint not null default 0", updatable = false)
+    @Column(columnDefinition = "bigint not null", updatable = false)
     private Long useridx;
 
     @Column(updatable = false)

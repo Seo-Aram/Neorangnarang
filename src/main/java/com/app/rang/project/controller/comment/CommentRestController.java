@@ -52,7 +52,7 @@ public class CommentRestController {
         List<CommentListModel> list = commentListService.selectBoardCommentLimit(boardidx, lastCommentIdx);
         model.addAttribute("commentList", list);
 
-        log.info("list >>>>>>>> " + list);
+        log.info("list >>>>>>>> " + list.size());
 
         return new ResponseEntity<>(list, httpHeaders, HttpStatus.OK);
 
@@ -60,22 +60,27 @@ public class CommentRestController {
 
     @PostMapping("/{lastCommentIdx}")
     public ResponseEntity<List<Comment>> writeComment(
+            @AuthenticationPrincipal AuthUserDTO userDTO,
             @PathVariable("lastCommentIdx") long lastCommentIdx,
             @RequestBody CommentWriteRequest comment){
 
+        log.info("insert comment ... ");
+
         log.info("not inserted >>> " + comment);
         log.info("lastCommentIdx >>> " + lastCommentIdx);
+        log.info("Useridx >>>" + userDTO.getUseridx());
 
         HttpHeaders httpHeaders = new HttpHeaders();
 
         // null 체크
         if(comment.getContent()==null || comment.getContent().isEmpty()){
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.BAD_REQUEST);
         }
 
-        /*comment.setUseridx(Long.valueOf(0));
-        comment.setNickname("nick");*/
+        log.info("Useridx >>>" + userDTO.getUseridx());
 
+        comment.setUseridx(userDTO.getUseridx());
+        comment.setNickname(userDTO.getNickname());
 
         List<Comment> list = null;
         try{
@@ -101,25 +106,50 @@ public class CommentRestController {
         HttpHeaders httpHeaders = new HttpHeaders();
 
         comment.setUseridx(userDTO.getUseridx());
+
+        log.info("useridx >>> " + comment.getUseridx());
+
+        // 수정시 권한 체크
+        if(comment.getUseridx() != userDTO.getUseridx()){
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.BAD_REQUEST);
+        }
+
         return new ResponseEntity<>(commentEditService.editComment(comment), httpHeaders, HttpStatus.OK);
     }
 
 
     @DeleteMapping("/{commentidx}")
-    public ResponseEntity<Integer> deleteComment(@PathVariable("commentidx") long commentidx){
+    public ResponseEntity<Integer> deleteComment(
+            @AuthenticationPrincipal AuthUserDTO userDTO,
+            Comment comment,
+            @PathVariable("commentidx") long commentidx){
 
         log.info("delete comment ... ");
         HttpHeaders httpHeaders = new HttpHeaders();
+
+        if(userDTO.getUseridx() != comment.getUseridx()){
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(commentDeleteService.deleteComment(commentidx), httpHeaders, HttpStatus.OK);
 
     }
 
-/*    @GetMapping("/{commentidx}")
-    public ResponseEntity<Comment> getaComment(@PathVariable("commentidx")long commentidx){
+    @GetMapping("/{commentidx}")
+    public ResponseEntity<Comment> getComment(
+            @AuthenticationPrincipal AuthUserDTO userDTO,
+            @PathVariable("commentidx")long commentidx
+    ){
 
-        return new ResponseEntity<>(commentReadService.getComment(commentidx), HttpStatus.OK);
-    }*/
+        HttpHeaders httpHeaders = new HttpHeaders();
+        Comment comment = commentReadService.getComment(commentidx);
+
+        if(comment.getUseridx() != userDTO.getUseridx()) {
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(comment, httpHeaders, HttpStatus.OK);
+    }
 
 
 }

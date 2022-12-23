@@ -93,6 +93,7 @@ public class BoardRestController {
         if(page == 1) {
             mav.addObject("commentList", commentListService.selectBoardCommentLimit(boardIdx, 0));
             mav.addObject("isMine", board.getUseridx() == userDTO.getUseridx());
+            mav.addObject("useridx", userDTO.getUseridx());
             mav.setViewName("view/board/view");
         } else if(page == 2) {
             if(userDTO.getUseridx() == board.getUseridx()) {
@@ -129,6 +130,7 @@ public class BoardRestController {
 
         return new ResponseEntity<>("/", httpHeaders, HttpStatus.OK);
     }
+
     @PostMapping("/{idx}")
     public ResponseEntity<Map<String, String>> updateItem(
             @PathVariable("idx") long boardIdx,

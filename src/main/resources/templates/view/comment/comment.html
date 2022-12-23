@@ -23,8 +23,7 @@
 </style>
 
 <body>
-
-  <main th:fragment="commentParam(commentList, boardidx)">
+  <main th:fragment="commentParam(commentList, boardidx, useridx)">
     <div id="commentListDiv" class="container-sm">
       <div th:each="comment : ${commentList}">
         <div class="col-sm-12" th:id="${'row-'+comment.commentidx}">
@@ -33,12 +32,14 @@
             <div class="col-md-8">
               <strong th:text="${comment.nickname}"></strong>
               <small th:text="${comment.writedate}"></small>
-              <div name="edit-btn">
-                <a class="edit-btn btn btn-outline-secondary" th:onclick="showEditModal([[${comment.commentidx}]])">수정</a>
-              </div>
-              <div name="del-btn">
-                <a class="delete-btn btn btn-outline-danger" th:onclick="deleteComment([[${comment.commentidx}]])">삭제</a>
-              </div>
+              <th:block th:if="${comment.useridx == useridx}">
+                <div name="edit-btn">
+                  <a class="edit-btn btn btn-outline-secondary" th:onclick="showEditModal([[${comment.commentidx}]])">수정</a>
+                </div>
+                <div name="del-btn">
+                  <a class="delete-btn btn btn-outline-danger" th:onclick="deleteComment([[${comment.commentidx}]])">삭제</a>
+                </div>
+              </th:block>
             </div>
             <div class="col-md-2"></div>
             <div class="col-md-2"></div>
@@ -68,7 +69,6 @@
       <div name="item" class="row mb-3 text-center row-item">
         <div class="col-sm-2 text-sm-end">
           <div class="row">
-            <!--<strong>${loginInfo.nickname}</strong>-->
             <small><label id="commentByte">0</label></small>
           </div>
         </div>
@@ -95,7 +95,7 @@
             <div class="mb-3">
               <label class="form-label">닉네임</label>
               <input type="text" class="form-control" id="commentName" readonly>
-              <input type="hidden" class="form-control" > <!-- 서버로 보낼 data(idx) -->
+              <input type="hidden" class="form-control"> <!-- 서버로 보낼 data(idx) -->
               <input type="hidden" id="recommentidx">
             </div>
             <div class="mb-3">
@@ -109,11 +109,6 @@
         </div>
       </div>
     </div>
-
-<!--    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
-            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-            crossorigin="anonymous">
-    </script>-->
 
     <script src="/js/textLenCheck.js"></script>
     <script src="/js/comment.js"></script>

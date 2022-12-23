@@ -24,14 +24,9 @@ public class CommentWriteService {
 
         Comment comment = writeRequest.toComment();
 
-        comment.setUseridx(Long.valueOf(0));
-        comment.setNickname("nick");
-
         int result=0;
 
         try{
-
-            //comment.setBoardidx();
 
             result = commentRepository.save(comment) !=null ? 1 : 0;
 
@@ -48,8 +43,8 @@ public class CommentWriteService {
 
         Comment comment = writeRequest.toComment();
 
-        comment.setUseridx(Long.valueOf(0));
-        comment.setNickname("nick");
+        comment.setUseridx(writeRequest.getUseridx());
+        comment.setNickname(writeRequest.getNickname());
 
         List<Comment> result = null;
 
