@@ -2,6 +2,7 @@ package com.app.rang.project.service;
 
 import com.app.rang.project.entity.Board;
 import com.app.rang.project.entity.Comment;
+import com.app.rang.project.model.AuthUserDTO;
 import com.app.rang.project.model.comment.CommentListModel;
 import com.app.rang.project.model.board.BoardListModel;
 import com.app.rang.project.repository.BoardRepository;
@@ -23,10 +24,10 @@ public class WrittenByUserService {
     @Autowired
     private CommentRepository commentRepository;
 
-    public List<BoardListModel> printMyBoard(long useridx){
+    public List<BoardListModel> printMyBoard(AuthUserDTO userDTO){
 
         List<BoardListModel> list = new ArrayList<>();
-        List<Board> b = boardRepository.findByUseridx(useridx);
+        List<Board> b = boardRepository.findByUseridx(userDTO.getUseridx());
 
         for (Board board : b){
             list.add(board.toBoardView());
@@ -36,10 +37,10 @@ public class WrittenByUserService {
 
     }
 
-    public List<CommentListModel> printMyComment(long useridx){
+    public List<CommentListModel> printMyComment(AuthUserDTO userDTO){
 
         List<CommentListModel> list = new ArrayList<>();
-        List<Comment> comments = commentRepository.findByUseridx(useridx);
+        List<Comment> comments = commentRepository.findByUseridx(userDTO.getUseridx());
 
         for (Comment comment : comments){
             list.add(comment.toCommentView());

@@ -1,8 +1,10 @@
 package com.app.rang.project.controller.user;
 
+import com.app.rang.project.model.AuthUserDTO;
 import com.app.rang.project.service.WrittenByUserService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,12 +20,14 @@ public class WrittenByUserController {
 
 
     @GetMapping("/myboard")
-    public ModelAndView getUserBoard(){
+    public ModelAndView getUserBoard(@AuthenticationPrincipal AuthUserDTO userDTO){
 
         ModelAndView mav = new ModelAndView();
         mav.clear();
-        long useridx = 0;
-        mav.addObject("myBoardList", byUserService.printMyBoard(useridx));
+        mav.addObject("myBoardList", byUserService.printMyBoard(userDTO));
+
+        log.info("useridx >>> " + userDTO.getUseridx());
+
         mav.setViewName("view/user/myboard");
 
         return mav;
@@ -31,12 +35,14 @@ public class WrittenByUserController {
     }
 
     @GetMapping("/mycomment")
-    public ModelAndView getUserComment(){
+    public ModelAndView getUserComment(@AuthenticationPrincipal AuthUserDTO userDTO){
 
         ModelAndView mav = new ModelAndView();
         mav.clear();
-        long useridx = 0;
-        mav.addObject("myCommentList", byUserService.printMyComment(useridx));
+        mav.addObject("myCommentList", byUserService.printMyComment(userDTO));
+
+        log.info("useridx >>> " + userDTO.getUseridx());
+
         mav.setViewName("view/user/mycomment");
 
         return mav;
