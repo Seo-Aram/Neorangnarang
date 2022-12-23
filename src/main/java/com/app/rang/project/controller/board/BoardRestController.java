@@ -89,9 +89,9 @@ public class BoardRestController {
 
         ModelAndView mav = new ModelAndView();
         mav.clear();
-        mav.addObject("board", board);
         if(board == null) mav.setViewName("redirect:/board/list");
         else {
+            mav.addObject("board", board);
             if (page == 1) {
                 mav.addObject("commentList", commentListService.selectBoardCommentLimit(boardIdx, 0));
                 mav.addObject("isMine", board.getUseridx() == userDTO.getUseridx());
