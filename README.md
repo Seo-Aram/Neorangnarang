@@ -79,3 +79,10 @@ JAVA Spring Boot, JPA, MySQL, javascript axios(비동기 통신)을 통한 간�
 ### 로그인
 
 ![image](https://user-images.githubusercontent.com/112995137/210194006-22b4bb6e-e1bf-4aa0-90be-5abea42764cc.png)
+
+### 회원 정보 보기
+
+![image](https://user-images.githubusercontent.com/112995137/210194464-30a3bb87-599a-4183-98c0-31c57e2ac6ef.png)
+
+- 내가 남긴 게시글과 댓글을 확인하여 삭제 처리 
+
